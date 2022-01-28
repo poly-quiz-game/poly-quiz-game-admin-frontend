@@ -52,9 +52,9 @@ const User = () => {
           <Link to="">
             <InfoCircleOutlined />
           </Link>
-          <Link to={`${record._id}/edit`}>
+          {/* <Link to={`${record._id}/edit`}>
             <EditOutlined />
-          </Link>
+          </Link> */}
           <DeleteOutlined
             style={{ cursor: "pointer", color: "#1890ff" }}
             onClick={async() => {await dispatch(remove(record._id)); await dispatch(fetchUser())}}

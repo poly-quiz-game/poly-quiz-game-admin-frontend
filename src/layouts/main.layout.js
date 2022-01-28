@@ -29,19 +29,22 @@ const MainLayout = () => {
         <div className="logo">
           <img src="./images/ongvang6.png" />
         </div>
-        <Menu theme="light" mode="horizontal" defaultSelectedKeys={["2"]}>
+        <Menu theme="light" mode="horizontal" defaultSelectedKeys={["2"]} className="current">
+        <div className="user-name">Hello : {user.name}</div>
           <Dropdown
             overlay={
               <Menu>
+               
                 <Menu.Item key="3" danger>
                   <a onClick={handleLogout}>Đăng xuất</a>
+                 
                 </Menu.Item>
               </Menu>
             }
           >
             <div className="current-user">
-              <img width={45} height={45} src="https://picsum.photos/200" />
-              <div>{user.name}</div>
+              <img width={45} src="https://picsum.photos/200" className="current-image" />
+              
             </div>
           </Dropdown>
         </Menu>

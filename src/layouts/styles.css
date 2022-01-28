@@ -24,3 +24,14 @@
 .site-layout-background {
   background: #fff;
 }
+.user-name{
+  color: #fff;
+  font-size:17px;
+}
+.current {
+  background-color: transparent !important;
+  border: none !important;
+}
+.current-image {
+  border-radius: 50%;
+}
