@@ -4,7 +4,9 @@ import { getToken } from "./api/axiosClient";
 
 const PrivateRoute = ({ children }) => {
   const token = getToken();
-  if (token) {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (token && user.role === 'admin') {
     return children;
   }
   return <Navigate to="/auth/login" />;
