@@ -4,6 +4,9 @@ import Auth from "./features/auth";
 import AuthLayout from "./layouts/auth.layout";
 import MainLayout from "./layouts/main.layout";
 import PrivateRoute from "./privateRoute";
+import QuestionType from "./features/questionType";
+import Dashboard from "./features/dashboard";
+import QuestionTime from "./features/questionTime";
 
 function App() {
   return (
@@ -18,7 +21,10 @@ function App() {
               </PrivateRoute>
             }
           >
+            <Route index element={<Dashboard />} />
             <Route path="/user/*" element={<User />} />
+            <Route path="/question-type/*" element={<QuestionType />} />
+            <Route path="/question-time/*" element={<QuestionTime />} />
           </Route>
           <Route path="/" element={<AuthLayout />}>
             <Route path="auth/*" element={<Auth />} />

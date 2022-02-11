@@ -1,24 +1,31 @@
 import React from "react";
-import { Layout } from "antd";
+import { Col, Layout, Row } from "antd";
 
 import { Link, Outlet } from "react-router-dom";
+import "./styles.css";
 
 const { Header, Content } = Layout;
 
 const AuthLayout = () => {
   return (
-    <Layout>
-      <Header className="header">
-        <Link to="/quiz">
-          <div className="logo">Poly Quiz Game</div>
-        </Link>
-      </Header>
-      <Content>
-        <div className="site-layout-content">
-          <Outlet />
-        </div>
-      </Content>
-    </Layout>
+    <div className="login-container">
+      <Row>
+        <Col span={8} offset={8}>
+          <div>
+            <div className="logo-login">
+              <img
+                alt="Logo"
+                src="https://ap.poly.edu.vn/images/logo.png"
+                width="200"
+              />
+            </div>
+            <div className="site-layout-content">
+              <Outlet />
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

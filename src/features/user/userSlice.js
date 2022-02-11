@@ -8,30 +8,22 @@ const initialState = {
   user: {},
 };
 
-export const fetchUser = createAsyncThunk(
-  "user/getUser", async () => {
+export const fetchUser = createAsyncThunk("user/getUser", async () => {
   const { data } = await userApi.getAll();
   return data;
 });
 
-export const add = createAsyncThunk(
-  "user/addUser",
-  async (user) => {
-    const { data } = await userApi.add(user);
-    return data;
-  }
-);
+export const add = createAsyncThunk("user/addUser", async (user) => {
+  const { data } = await userApi.add(user);
+  return data;
+});
 
-export const userDetail = createAsyncThunk(
-  "user/userDetail",
-  async (id) => {
+export const userDetail = createAsyncThunk("user/userDetail", async (id) => {
   const { data } = await userApi.getOne(id);
   return data;
 });
 
-export const remove = createAsyncThunk(
-  "user/remove", 
-  async (id) => {
+export const remove = createAsyncThunk("user/remove", async (id) => {
   const { data } = await userApi.delete(id);
   return data;
 });
@@ -60,7 +52,7 @@ const userSlice = createSlice({
       state.users = action.payload;
     });
     addCase(add.fulfilled, (state) => {
-      state.loading = false;    
+      state.loading = false;
     });
     addCase(userDetail.fulfilled, (state, action) => {
       state.loading = false;
