@@ -1,28 +1,17 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
-import { Button, Space, Table } from "antd";
 import React, { useEffect } from "react";
+import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { Button, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchUser, remove, selectLoading, selectUserList } from "../userSlice";
+import { fetchUser, remove, selectUserList } from "../userSlice";
 
 const User = () => {
-  const data = [];
   const dispatch = useDispatch();
   const users = useSelector(selectUserList);
-  const loading = useSelector(selectLoading);
-  if (!loading) {
-    users.map((user, index) => {
-      data.push(Object.assign({}, user, { key: index }));
-    });
-  }
+
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
-
 
   const columns = [
     {
@@ -57,7 +46,10 @@ const User = () => {
           </Link> */}
           <DeleteOutlined
             style={{ cursor: "pointer", color: "#1890ff" }}
-            onClick={async() => {await dispatch(remove(record._id)); await dispatch(fetchUser())}}
+            onClick={async () => {
+              await dispatch(remove(record._id));
+              await dispatch(fetchUser());
+            }}
           />
         </Space>
       ),
@@ -70,8 +62,12 @@ const User = () => {
 
   return (
     <div>
-      <Button type="primary"><Link to="add" >Add</Link></Button>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Button type="primary">
+        <Link to="add">Thêm tài khoản</Link>
+      </Button>
+      <br />
+      <br />
+      <Table columns={columns} dataSource={users} onChange={onChange} />
     </div>
   );
 };

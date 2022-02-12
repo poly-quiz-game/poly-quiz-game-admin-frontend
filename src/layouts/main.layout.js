@@ -10,7 +10,6 @@ import "./styles.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../features/auth/authSlice";
-// import { logout, selectUser } from "../features/auth/authSlice";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -27,9 +26,7 @@ const MainLayout = () => {
   return (
     <Layout>
       <Header className="header">
-        <div className="logo">
-          {/* <Link to="/" >Home</Link> */}
-        </div>
+        <div className="logo">{/* <Link to="/" >Home</Link> */}</div>
         <Menu
           theme="light"
           mode="horizontal"
@@ -77,16 +74,14 @@ const MainLayout = () => {
             <Menu.Item key="1" icon={<PieChartOutlined />}>
               <Link to="/">Dashboard</Link>
             </Menu.Item>
-            <SubMenu key="2" icon={<UserOutlined />} title="User">
-              <Menu.Item key="sub1">
-                <Link to="/user">List user</Link>
-              </Menu.Item>
-            </SubMenu>
+            <Menu.Item key="2" icon={<UserOutlined />}>
+              <Link to="/user">Danh sách tài khoản</Link>
+            </Menu.Item>
             <Menu.Item key="3" icon={<PieChartOutlined />}>
-              <Link to="/question-type">Question Type</Link>
+              <Link to="/question-type">Loại câu hỏi</Link>
             </Menu.Item>
             <Menu.Item key="4" icon={<PieChartOutlined />}>
-              <Link to="/question-time">Question Time</Link>
+              <Link to="/question-time">Thời gian câu hỏi</Link>
             </Menu.Item>
           </Menu>
         </Sider>

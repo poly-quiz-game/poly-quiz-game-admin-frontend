@@ -52,7 +52,7 @@ const Add = () => {
       </Form.Item>
       <Form.Item label=" " colon={false}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Lưu
         </Button>
       </Form.Item>
     </Form>

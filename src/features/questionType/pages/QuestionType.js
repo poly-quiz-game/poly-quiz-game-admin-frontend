@@ -1,9 +1,8 @@
-import { Input, Space, Button, Switch, Table } from "antd";
+import { Space, Switch, Table } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchQuestiontype,
-  selectLoading,
   selectQuestionTypeList,
   update,
 } from "../questionTypeSlice";
@@ -17,15 +16,14 @@ const QuestionType = () => {
 
   const columns = [
     {
-      title: "Name",
+      title: "Loại câu hỏi",
       dataIndex: "name",
-
       onFilter: (value, record) => record.name.indexOf(value) === 0,
       sorter: (a, b) => a.name.length - b.name.length,
       sortDirections: ["descend"],
     },
     {
-      title: "Action",
+      title: "Kích hoạt",
       key: "action",
       render: (text, record) => (
         <Space
@@ -36,8 +34,8 @@ const QuestionType = () => {
         >
           <Space wrap>
             <Switch
-              checkedChildren="on"
-              unCheckedChildren="off"
+              checkedChildren=""
+              unCheckedChildren=""
               checked={record.isActive}
               onChange={async (isActive) => {
                 await dispatch(update({ ...record, isActive }));
