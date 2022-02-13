@@ -5,6 +5,8 @@ import {
   LaptopOutlined,
   NotificationOutlined,
   PieChartOutlined,
+  DashboardOutlined,
+  FieldTimeOutlined,
 } from "@ant-design/icons";
 import "./styles.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -71,7 +73,7 @@ const MainLayout = () => {
                 />
               </Link>
             </div>
-            <Menu.Item key="1" icon={<PieChartOutlined />}>
+            <Menu.Item key="1" icon={<DashboardOutlined />}>
               <Link to="/">Dashboard</Link>
             </Menu.Item>
             <Menu.Item key="2" icon={<UserOutlined />}>
@@ -80,7 +82,7 @@ const MainLayout = () => {
             <Menu.Item key="3" icon={<PieChartOutlined />}>
               <Link to="/question-type">Loại câu hỏi</Link>
             </Menu.Item>
-            <Menu.Item key="4" icon={<PieChartOutlined />}>
+            <Menu.Item key="4" icon={<FieldTimeOutlined />}>
               <Link to="/question-time">Thời gian câu hỏi</Link>
             </Menu.Item>
           </Menu>

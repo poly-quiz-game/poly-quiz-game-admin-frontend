@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { useDispatch } from "react-redux";
 import { add } from "../userSlice";
 import { useNavigate } from "react-router-dom";
@@ -28,10 +28,15 @@ const Add = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const success = () => {
+    message.success('Thêm user thành công!');
+  };
+
   const onFinish = async (values) => {
     // console.log(values.user);
     await dispatch(add(values.user));
     await navigate("/user", { replace: true });
+    await success()
   };
 
   return (

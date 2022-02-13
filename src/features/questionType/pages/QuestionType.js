@@ -37,7 +37,7 @@ const QuestionType = () => {
               checkedChildren=""
               unCheckedChildren=""
               checked={record.isActive}
-              onChange={async (isActive) => {
+              onChange={async (isActive) => {                
                 await dispatch(update({ ...record, isActive }));
                 await dispatch(fetchQuestiontype());
               }}

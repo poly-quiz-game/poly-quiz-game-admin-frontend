@@ -4,6 +4,7 @@ import { Button, Space, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchUser, remove, selectUserList } from "../userSlice";
+import { showDeleteConfirm } from "../../../confirm/DeleteConfirm";
 
 const User = () => {
   const dispatch = useDispatch();
@@ -46,9 +47,11 @@ const User = () => {
           </Link> */}
           <DeleteOutlined
             style={{ cursor: "pointer", color: "#1890ff" }}
-            onClick={async () => {
-              await dispatch(remove(record._id));
-              await dispatch(fetchUser());
+            onClick={() => {
+              showDeleteConfirm(record.email, async () => {
+                await dispatch(remove(record._id));
+                await dispatch(fetchUser());
+              });
             }}
           />
         </Space>

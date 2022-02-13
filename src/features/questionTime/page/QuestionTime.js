@@ -7,23 +7,16 @@ import { Button, Space, Table } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { showDeleteConfirm } from "../../../confirm/DeleteConfirm";
 import {
   fetchQuestionTime,
   remove,
-  selectLoading,
   selectQuestionTimeList,
 } from "../questionTimeSlice";
 
 const QuestionTime = () => {
-  // const data = [];
   const dispatch = useDispatch();
   const questionTime = useSelector(selectQuestionTimeList);
-  const loading = useSelector(selectLoading);
-  // if (!loading) {
-  //   users.map((user, index) => {
-  //     data.push(Object.assign({}, user, { key: index }));
-  //   });
-  // }
   useEffect(() => {
     dispatch(fetchQuestionTime());
   }, [dispatch]);
@@ -44,9 +37,11 @@ const QuestionTime = () => {
         <Space size="middle">
           <DeleteOutlined
             style={{ cursor: "pointer", color: "#1890ff" }}
-            onClick={async () => {
-              await dispatch(remove(record._id));
-              await dispatch(fetchQuestionTime());
+            onClick={() => {
+              showDeleteConfirm(record.name, async () => {
+                await dispatch(remove(record._id));
+                await dispatch(fetchQuestionTime());
+              });
             }}
           />
         </Space>
