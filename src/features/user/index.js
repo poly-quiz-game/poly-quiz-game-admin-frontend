@@ -3,6 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import Add from "./pages/Add";
 import Edit from "./pages/Edit";
 import User from "./pages/User";
+import UserQuizz from "./pages/UserQuizz";
+import UserReport from "./pages/UserReport";
 
 const UserFeature = () => {
   return (
@@ -10,6 +12,8 @@ const UserFeature = () => {
       <Routes>
         <Route path="/" element={<User />} />
         <Route path="add" element={<Add />} />
+        <Route path="/user-quizz" element={<UserQuizz />} />
+        <Route path="/user-report" element={<UserReport />} />
         <Route path=":id/edit" element={<Edit />} />
       </Routes>
     </div>

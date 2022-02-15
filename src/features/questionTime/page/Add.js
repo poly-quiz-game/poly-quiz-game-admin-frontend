@@ -11,13 +11,13 @@ const Add = () => {
   const dispatch = useDispatch();
   const onFinish = async (values) => {
     const data = {}
-    if(values.unit.unit == 'minute'){
-      data.name = values.number.number + ' Phút'
-      data.time = values.number.number*60000
+    if(values.unit == 'minute'){
+      data.name = values.number + ' Phút'
+      data.time = values.number*60000
     }
-    if(values.unit.unit == 'second'){
-      data.name = values.number.number + ' Giây'
-      data.time = values.number.number*1000
+    if(values.unit == 'second'){
+      data.name = values.number + ' Giây'
+      data.time = values.number*1000
     }
     await dispatch(add(data));
     await navigate("/question-time", { replace: true });
@@ -32,14 +32,14 @@ const Add = () => {
       <Form.Item label="Nhập">
         <Input.Group compact>
           <Form.Item
-            name={["number", "number"]}
+            name={"number"}
             noStyle
             rules={[{ required: true, message: "number is required" }]}
           >
             <Input style={{ width: "50%" }} placeholder="number" />
           </Form.Item>
           <Form.Item
-            name={["unit", "unit"]}
+            name={"unit"}
             noStyle
             rules={[{ required: true, message: "unit is required" }]}
           >

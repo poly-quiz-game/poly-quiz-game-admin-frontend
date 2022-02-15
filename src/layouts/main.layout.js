@@ -81,6 +81,13 @@ const MainLayout = () => {
               <Menu.Item key="sub1">
                 <Link to="/user">List user</Link>
               </Menu.Item>
+              <Menu.Item key="sub2">
+              <Link to="/user/user-quizz">List user-quizz</Link>
+              </Menu.Item>
+              <Menu.Item key="sub3">
+              <Link to="/user/user-report">List user-report</Link>
+              </Menu.Item>
+            
             </SubMenu>
             <Menu.Item key="3" icon={<PieChartOutlined />}>
               <Link to="/question-type">Question Type</Link>
