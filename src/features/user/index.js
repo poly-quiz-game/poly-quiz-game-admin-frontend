@@ -12,8 +12,8 @@ const UserFeature = () => {
       <Routes>
         <Route path="/" element={<User />} />
         <Route path="add" element={<Add />} />
-        <Route path="/user-quizz" element={<UserQuizz />} />
-        <Route path="/user-report" element={<UserReport />} />
+        <Route path="/quiz-user" element={<UserQuizz />} />
+        <Route path="/quiz-report" element={<UserReport />} />
         <Route path=":id/edit" element={<Edit />} />
       </Routes>
     </div>

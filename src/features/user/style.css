@@ -1,0 +1,14 @@
+.btn{
+    margin-bottom: 10px;  
+}
+.btn-active{
+    padding:5px;
+}
+.btn-primary{
+    margin-right:10px;
+}
+.active{
+    color: #1890ff;
+    background-color:#f0f2f5;
+    /* border: 1px solid #1890ff; */
+}

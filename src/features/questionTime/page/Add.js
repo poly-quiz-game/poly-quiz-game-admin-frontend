@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Select, Tooltip, Button, Space, Typography } from "antd";
+import { Form, Input, Select, Tooltip, Button, Space, Typography, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { add } from "../questionTimeSlice";
@@ -21,6 +21,7 @@ const Add = () => {
     }
     await dispatch(add(data));
     await navigate("/question-time", { replace: true });
+    await message.success(`Thêm thành công`);
   };
   return (
     <Form
@@ -52,7 +53,7 @@ const Add = () => {
       </Form.Item>
       <Form.Item label=" " colon={false}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Lưu
         </Button>
       </Form.Item>
     </Form>
