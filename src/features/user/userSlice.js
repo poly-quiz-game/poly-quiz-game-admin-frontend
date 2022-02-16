@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Navigate } from "react-router-dom";
 import userApi from "../../api/userApi";
 
 const initialState = {
@@ -10,8 +9,8 @@ const initialState = {
 };
 
 export const fetchUser = createAsyncThunk(
-  "user/getUser", async ({ offset, limit, search }) => {
-  const { data } = await userApi.getAll({ offset, limit, search });
+  "user/getUser", async ({ offset, limit, search, sortBy }) => {
+  const  data  = await userApi.getAll({ offset, limit, search, sortBy });
   return data;
 });
 
@@ -62,7 +61,7 @@ const userSlice = createSlice({
     //fulfilled
     addCase(fetchUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.users = action.payload;
+      state.users = action.payload.data;
       state.total = action.payload.total;
     });
     addCase(add.fulfilled, (state) => {
@@ -96,9 +95,6 @@ const userSlice = createSlice({
     });
   },
 });
-
-// Actions
-// export const quizActions = quizSlice.actions;
 
 // Selectors
 export const selectUserList = (state) => state.user.users;

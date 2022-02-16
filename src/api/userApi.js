@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
 const userApi = {
-  getAll({ offset, limit, search }) {
-    const url = `/user?offset=${offset}&limit=${limit}&search=${search}`;
+  getAll({ offset, limit, search, sortBy }) {
+    const url = `/user?offset=${offset}&limit=${limit}&search=${search}&sortBy=${sortBy}`;
     return axiosClient.get(url, {});
   },
   getOne(id) {

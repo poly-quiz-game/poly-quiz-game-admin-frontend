@@ -1,0 +1,13 @@
+.btn{
+    margin-bottom: 10px;  
+}
+.btn-active{
+    padding: 13px 16px;
+}
+.btn-primary{
+    margin-right:10px;
+}
+.active{
+    color: #1890ff;
+    background-color: #f0f2f5;
+}

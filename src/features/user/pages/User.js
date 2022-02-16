@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Space, Switch, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   fetchUser,
-  remove,
   selectUserList,
   selectUserTotal,
   update,
@@ -21,37 +20,48 @@ const User = () => {
   const { Search } = Input;
   const [offset, setOffset] = useState(0);
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("-createdAt");
+
 
   useEffect(() => {
-    dispatch(fetchUser({ search, offset, limit: LIMIT }));
-  }, [dispatch, offset, search]);
+    dispatch(fetchUser({ search, offset, limit: LIMIT, sortBy }));
+  }, [dispatch, offset, search, sortBy]);
+
+  const current = offset / LIMIT + 1;
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      //
-      // onFilter: (value, record) => record.name.indexOf(value) === 0,
-      sorter: (a, b) => a.name.length - b.name.length,
-      // sortDirections: ["descend"],
+      sorter: () => {
+        if(sortBy == '-createdAt'){
+          setSortBy('+name')
+        }else if(sortBy == '+name'){
+          setSortBy('-name')
+        }else {setSortBy('+name')}
+      },
     },
     {
       title: "Email",
       dataIndex: "email",
-      // defaultSortOrder: "descend",
-      // sorter: (a, b) => a.age - b.age,
+      sorter: () => {
+        if(sortBy == '-createdAt'){
+          setSortBy('+email')
+        }else if(sortBy == '+email'){
+          setSortBy('-email')
+        }else {setSortBy('+email')}
+      },
     },
     {
       title: "Role",
       dataIndex: "role",
-      onFilter: (value, record) => record.address.indexOf(value) === 0,
     },
     {
       title: "Action",
       key: "action",
-      render: (text, record) => (
+      render: (record) => (
         <Space size="middle">
-          <Link to="">
+          <Link to={`/user/${record._id}/quiz-user`}>
             <InfoCircleOutlined />
           </Link>
           <Space wrap>
@@ -61,7 +71,7 @@ const User = () => {
               checked={record.isActive}
               onChange={async (isActive) => {
                 await dispatch(update({ ...record, isActive }));
-                await dispatch(fetchUser());
+                await dispatch(fetchUser({ search, offset, limit: LIMIT, sortBy }));
               }}
             />
           </Space>
@@ -70,13 +80,16 @@ const User = () => {
     },
   ];
 
-  const onChange = (value) => {
-    console.log(value);
-  };
+  function onChange(pagination) {
+    setOffset((pagination.current - 1) * LIMIT)
+  }
 
-  // function onChange(pagination, filters, sorter, extra) {
-  //   console.log("params", pagination, filters, sorter, extra);
-  // }
+  const pagination = {
+    defaultCurrent: 1,
+    current: current,
+    pageSize: LIMIT,
+    total: total,
+  };
 
   return (
     <div>
@@ -99,9 +112,9 @@ const User = () => {
       <Table
         columns={columns}
         bordered
+        pagination={pagination}
         dataSource={users}
         onChange={onChange}
-        // rowSelection={rowSelection}
       />
     </div>
   );
