@@ -1,27 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { Button, Space, Table } from "antd";
+import { Button, Col, Input, Row, Space, Switch, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchUser, remove, selectUserList } from "../userSlice";
-import { showDeleteConfirm } from "../../../confirm/DeleteConfirm";
+import {
+  fetchUser,
+  remove,
+  selectUserList,
+  selectUserTotal,
+  update,
+} from "../userSlice";
+
+const LIMIT = 10;
 
 const User = () => {
   const dispatch = useDispatch();
   const users = useSelector(selectUserList);
+  const total = useSelector(selectUserTotal);
+
+  const { Search } = Input;
+  const [offset, setOffset] = useState(0);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
+    dispatch(fetchUser({ search, offset, limit: LIMIT }));
+  }, [dispatch, offset, search]);
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       //
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      // onFilter: (value, record) => record.name.indexOf(value) === 0,
       sorter: (a, b) => a.name.length - b.name.length,
-      sortDirections: ["descend"],
+      // sortDirections: ["descend"],
     },
     {
       title: "Email",
@@ -42,35 +54,55 @@ const User = () => {
           <Link to="">
             <InfoCircleOutlined />
           </Link>
-          {/* <Link to={`${record._id}/edit`}>
-            <EditOutlined />
-          </Link> */}
-          <DeleteOutlined
-            style={{ cursor: "pointer", color: "#1890ff" }}
-            onClick={() => {
-              showDeleteConfirm(record.email, async () => {
-                await dispatch(remove(record._id));
+          <Space wrap>
+            <Switch
+              checkedChildren=""
+              unCheckedChildren=""
+              checked={record.isActive}
+              onChange={async (isActive) => {
+                await dispatch(update({ ...record, isActive }));
                 await dispatch(fetchUser());
-              });
-            }}
-          />
+              }}
+            />
+          </Space>
         </Space>
       ),
     },
   ];
 
-  function onChange(pagination, filters, sorter, extra) {
-    console.log("params", pagination, filters, sorter, extra);
-  }
+  const onChange = (value) => {
+    console.log(value);
+  };
+
+  // function onChange(pagination, filters, sorter, extra) {
+  //   console.log("params", pagination, filters, sorter, extra);
+  // }
 
   return (
     <div>
-      <Button type="primary">
-        <Link to="add">Thêm tài khoản</Link>
-      </Button>
+      <Row>
+        <Col span={5} offset={0} style={{ textAlign: "center" }}>
+          <Button type="primary">
+            <Link to="add">Thêm tài khoản</Link>
+          </Button>
+        </Col>
+        <Col span={10} offset={3} style={{ textAlign: "center" }}>
+          <Search
+            placeholder="input search text"
+            onChange={(e) => setSearch(e.target.value)}
+            enterButton
+          />
+        </Col>
+      </Row>
       <br />
       <br />
-      <Table columns={columns} dataSource={users} onChange={onChange} />
+      <Table
+        columns={columns}
+        bordered
+        dataSource={users}
+        onChange={onChange}
+        // rowSelection={rowSelection}
+      />
     </div>
   );
 };

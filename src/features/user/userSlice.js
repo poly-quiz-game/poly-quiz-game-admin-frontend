@@ -5,11 +5,13 @@ import userApi from "../../api/userApi";
 const initialState = {
   loading: true,
   users: [],
+  total: 0,
   user: {},
 };
 
-export const fetchUser = createAsyncThunk("user/getUser", async () => {
-  const { data } = await userApi.getAll();
+export const fetchUser = createAsyncThunk(
+  "user/getUser", async ({ offset, limit, search }) => {
+  const { data } = await userApi.getAll({ offset, limit, search });
   return data;
 });
 
@@ -17,6 +19,14 @@ export const add = createAsyncThunk("user/addUser", async (user) => {
   const { data } = await userApi.add(user);
   return data;
 });
+
+export const update = createAsyncThunk(
+  "user/userUpdate",
+  async (user) => {
+    const { data } = await userApi.update(user);
+    return data;
+  }
+);
 
 export const userDetail = createAsyncThunk("user/userDetail", async (id) => {
   const { data } = await userApi.getOne(id);
@@ -40,6 +50,9 @@ const userSlice = createSlice({
     addCase(add.pending, (state) => {
       state.loading = true;
     });
+    addCase(update.pending, (state) => {
+      state.loading = true;
+    });
     addCase(remove.pending, (state) => {
       state.loading = true;
     });
@@ -50,8 +63,12 @@ const userSlice = createSlice({
     addCase(fetchUser.fulfilled, (state, action) => {
       state.loading = false;
       state.users = action.payload;
+      state.total = action.payload.total;
     });
     addCase(add.fulfilled, (state) => {
+      state.loading = false;
+    });
+    addCase(update.fulfilled, (state) => {
       state.loading = false;
     });
     addCase(userDetail.fulfilled, (state, action) => {
@@ -66,6 +83,9 @@ const userSlice = createSlice({
       state.loading = false;
     });
     addCase(add.rejected, (state) => {
+      state.loading = false;
+    });
+    addCase(update.rejected, (state) => {
       state.loading = false;
     });
     addCase(remove.rejected, (state) => {
@@ -84,6 +104,7 @@ const userSlice = createSlice({
 export const selectUserList = (state) => state.user.users;
 export const selectUserDetail = (state) => state.user.user;
 export const selectLoading = (state) => state.user.loading;
+export const selectUserTotal = (state) => state.user.total;
 
 // Reducer
 const userReducer = userSlice.reducer;
