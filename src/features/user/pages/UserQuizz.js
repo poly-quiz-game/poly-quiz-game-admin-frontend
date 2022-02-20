@@ -1,14 +1,10 @@
-import { DeleteOutlined } from "@ant-design/icons";
-import { Space, Table } from "antd";
+import { HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { Breadcrumb, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useParams } from "react-router-dom";
+import {  Link, NavLink, useParams } from "react-router-dom";
 import {
-  fetchUser,
-  remove,
-  selectLoading,
   selectUserDetail,
-  selectUserList,
   userDetail,
 } from "../userSlice";
 import "./../style.css";
@@ -16,13 +12,10 @@ import "./../style.css";
 const LIMIT = 10;
 
 const UserQuizz = () => {
-  const data = [];
   let params = useParams();
   const dispatch = useDispatch();
   const { quizzes } = useSelector(selectUserDetail);
   const [offset, setOffset] = useState(0);
-  const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("-createdAt");
   const total = quizzes?.length;
 
   useEffect(() => {
@@ -56,7 +49,7 @@ const UserQuizz = () => {
       }
     },
     {
-      title: "Số Lượng người tham gia",
+      title: "Số Lượng người chơi",
       dataIndex: "numberOfPlayer",
     },
     {
@@ -92,6 +85,22 @@ const UserQuizz = () => {
 
   return (
     <div>
+      <Breadcrumb style={{textAlign: "right", marginRight: "27px"}}>
+        <Breadcrumb.Item>
+          <Link to="/">
+            <HomeOutlined />
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+        <Link to="/user">
+        <UserOutlined />
+            <span>User List</span>
+          </Link>            
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>User quizz</Breadcrumb.Item>
+      </Breadcrumb>
+      <br/>
+      <br />
       <div className="btn">
         <NavLink
           className="btn-active"
@@ -109,7 +118,7 @@ const UserQuizz = () => {
         </NavLink>
       </div>
 
-      <Table columns={columns} dataSource={quizzes} pagination={pagination} onChange={onChange} />
+      <Table bordered columns={columns} dataSource={quizzes} pagination={pagination} onChange={onChange} />
     </div>
   );
 };

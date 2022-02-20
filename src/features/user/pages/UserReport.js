@@ -1,10 +1,11 @@
-import { Table } from "antd";
+import { Breadcrumb, Table } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import "./../style.css";
 import { selectUserDetail, userDetail } from "../userSlice";
+import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 
 const LIMIT = 10;
 
@@ -61,6 +62,22 @@ const UserReport = () => {
 
   return (
     <div>
+      <Breadcrumb style={{ textAlign: "right", marginRight: "27px" }}>
+        <Breadcrumb.Item>
+          <Link to="/">
+            <HomeOutlined />
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to="/user">
+            <UserOutlined />
+            <span>User List</span>
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>User report</Breadcrumb.Item>
+      </Breadcrumb>
+      <br />
+      <br />
       <div className="btn">
         <NavLink
           className="btn-active"
@@ -79,6 +96,7 @@ const UserReport = () => {
       </div>
 
       <Table
+        bordered
         pagination={pagination}
         columns={columns}
         dataSource={reports}

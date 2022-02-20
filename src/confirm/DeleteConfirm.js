@@ -6,7 +6,7 @@ const { confirm } = Modal;
 
 export const showDeleteConfirm = (content, callback) => {
   confirm({
-    title: "Có không giữ mất đừng tìm?",
+    title: "Bạn có muốn xóa?",
     icon: <ExclamationCircleOutlined />,
     content: `Bạn có chắc muốn xóa: ${content}`,
     okText: "Yes",
