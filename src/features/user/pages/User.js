@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   SearchOutlined,
   EditOutlined,
@@ -12,7 +12,6 @@ import {
   Breadcrumb,
   Button,
   Col,
-  DatePicker,
   Drawer,
   Form,
   Input,
@@ -24,13 +23,14 @@ import {
   Table,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   add,
   fetchUser,
   selectUserList,
   selectUserTotal,
   update,
+  selectLoading,
 } from "../userSlice";
 
 const validateMessages = {
@@ -49,13 +49,21 @@ const LIMIT = 10;
 const { Option } = Select;
 
 const User = () => {
+  const ref = useRef();
   const dispatch = useDispatch();
   const users = useSelector(selectUserList);
   const total = useSelector(selectUserTotal);
-  const [offset, setOffset] = useState(0);
-  const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("-createdAt");
+  const loading = useSelector(selectLoading);
   const [form] = Form.useForm();
+
+  const [metadata, setMetadata] = useState({
+    offset: 0,
+    limit: LIMIT,
+    search: "",
+    sortDirection: "desc",
+    sortField: "createdAt",
+  });
+
   const [state, setState] = useState({
     visible: false,
     placement: "top",
@@ -92,13 +100,13 @@ const User = () => {
             </Col>
           </Row>
         ),
-        id: <Form.Item name="_id" hidden></Form.Item>,
+        id: <Form.Item name="id" hidden></Form.Item>,
       });
       form.setFieldsValue({
         email: condition.email,
         role: condition.role,
         isActive: condition.isActive,
-        _id: condition._id,
+        id: condition.id,
       });
     }
   };
@@ -111,47 +119,37 @@ const User = () => {
       email: "",
       role: "",
       isActive: "",
-      _id: "",
+      id: "",
     });
   };
 
   useEffect(() => {
-    dispatch(fetchUser({ search, offset, limit: LIMIT, sortBy }));
-  }, [dispatch, offset, search, sortBy]);
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchUser(metadata));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+    ref.current = metadata;
+  }, [dispatch, metadata]);
+
+  const { offset } = metadata;
 
   const current = offset / LIMIT + 1;
-
-  const data = users.map((user, index) => ({
-    ...user,
-    key: index,
-  }));
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      sorter: () => {
-        if (sortBy == "-createdAt") {
-          setSortBy("+name");
-        } else if (sortBy == "+name") {
-          setSortBy("-name");
-        } else {
-          setSortBy("+name");
-        }
-      },
+      sorter: true,
     },
     {
       title: "Email",
       dataIndex: "email",
-      sorter: () => {
-        if (sortBy == "-createdAt") {
-          setSortBy("+email");
-        } else if (sortBy == "+email") {
-          setSortBy("-email");
-        } else {
-          setSortBy("+email");
-        }
-      },
+      sorter: true,
     },
     {
       title: "Role",
@@ -186,7 +184,7 @@ const User = () => {
           style={{ textAlign: "center" }}
         >
           <Link
-            to={`/user/${record._id}/quiz-user`}
+            to={`/user/${record.id}/quiz-user`}
             style={{ padding: "2px 7px" }}
           >
             <InfoCircleOutlined /> Detail
@@ -207,23 +205,34 @@ const User = () => {
   };
 
   const onFinish = async (values) => {
-    console.log(!values._id);
+    console.log(!values.id);
     console.log(values);
     if (values.isActive == undefined) {
       await dispatch(add(values));
-      await dispatch(fetchUser({ search, offset, limit: LIMIT, sortBy }));
+      await dispatch(fetchUser(metadata));
       await onClose();
       await success("Add");
     } else {
       await dispatch(update(values));
-      await dispatch(fetchUser({ search, offset, limit: LIMIT, sortBy }));
+      await dispatch(fetchUser(metadata));
       await onClose();
       await success("Sửa");
     }
   };
 
-  function onChange(pagination) {
-    setOffset((pagination.current - 1) * LIMIT);
+  function onChange(pagination, filters, sorter, extra) {
+    console.log(sorter);
+    setMetadata({
+      ...metadata,
+      sortField: sorter.field,
+      sortDirection:
+        sorter.field === metadata.sortField
+          ? sorter.order === "ascend"
+            ? "asc"
+            : "desc"
+          : "desc",
+      offset: (pagination.current - 1) * LIMIT,
+    });
   }
 
   const pagination = {
@@ -235,18 +244,18 @@ const User = () => {
 
   return (
     <div>
-      <Breadcrumb style={{textAlign: "right", marginRight: "27px"}}>
+      <Breadcrumb style={{ textAlign: "right", marginRight: "27px" }}>
         <Breadcrumb.Item>
           <Link to="/">
             <HomeOutlined />
           </Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-            <UserOutlined />
-            <span>Uer List</span>
+          <UserOutlined />
+          <span>Uer List</span>
         </Breadcrumb.Item>
       </Breadcrumb>
-      <br/>
+      <br />
       <Row>
         <Col span={5} offset={0}>
           <Button
@@ -258,7 +267,7 @@ const User = () => {
           </Button>
         </Col>
       </Row>
-      <hr style={{opacity: "0.5"}}/>
+      <hr style={{ opacity: "0.5" }} />
       <br />
       <div
         style={{
@@ -282,7 +291,13 @@ const User = () => {
             <Input
               className="search-user"
               placeholder="Search"
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setMetadata({
+                  ...metadata,
+                  offset: 0,
+                  search: e.target.value,
+                })
+              }
               style={{ border: "none" }}
               blur
             />
@@ -314,7 +329,7 @@ const User = () => {
                 }}
                 // onClick={() => {
                 //   showDeleteConfirm(record.name, async () => {
-                //     await dispatch(remove(record._id));
+                //     await dispatch(remove(record.id));
                 //     await dispatch(fetchQuestionTime());
                 //   });
                 // }}
@@ -344,9 +359,10 @@ const User = () => {
         </Row>
         <Table
           columns={columns}
+          loading={loading}
           bordered
           pagination={pagination}
-          dataSource={data}
+          dataSource={users.map((u) => ({ ...u, key: u.id }))}
           onChange={onChange}
         />
         <Drawer

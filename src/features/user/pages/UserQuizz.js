@@ -2,11 +2,8 @@ import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import { Breadcrumb, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  Link, NavLink, useParams } from "react-router-dom";
-import {
-  selectUserDetail,
-  userDetail,
-} from "../userSlice";
+import { Link, NavLink, useParams } from "react-router-dom";
+import { selectUserDetail, userDetail } from "../userSlice";
 import "./../style.css";
 
 const LIMIT = 10;
@@ -14,13 +11,13 @@ const LIMIT = 10;
 const UserQuizz = () => {
   let params = useParams();
   const dispatch = useDispatch();
-  const { quizzes } = useSelector(selectUserDetail);
+  const { quizzes = [] } = useSelector(selectUserDetail) || {};
   const [offset, setOffset] = useState(0);
   const total = quizzes?.length;
 
   useEffect(() => {
     dispatch(userDetail(params.id));
-  }, [dispatch]);
+  }, [dispatch, params]);
 
   const current = offset / LIMIT + 1;
 
@@ -34,19 +31,15 @@ const UserQuizz = () => {
       title: "Ảnh Nền",
       dataIndex: "backgroundImage",
       render: (backgroundImage) => {
-        return (
-          <img width="150px" src={backgroundImage} />
-        )
-      }
+        return <img width="150px" src={backgroundImage} />;
+      },
     },
     {
       title: "Ảnh Bìa",
       dataIndex: "coverImage",
       render: (coverImage) => {
-        return (
-          <img width="150px" src={coverImage} />
-        )
-      }
+        return <img width="150px" src={coverImage} />;
+      },
     },
     {
       title: "Số Lượng người chơi",
@@ -56,24 +49,20 @@ const UserQuizz = () => {
       title: "Đăng Nhập",
       dataIndex: "needLogin",
       render: (needLogin) => {
-        return (
-          <p>{needLogin ? "Có" : "Không"}</p>
-        )
-      }
+        return <p>{needLogin ? "Có" : "Không"}</p>;
+      },
     },
     {
       title: "Số lượng câu hỏi",
       dataIndex: "questions",
       render: (questions) => {
-        return (
-          <p>{questions.length}</p>
-        )
-      }
-    },  
+        return <p>{questions.length}</p>;
+      },
+    },
   ];
 
   function onChange(pagination) {
-    setOffset((pagination.current - 1) * LIMIT)
+    setOffset((pagination.current - 1) * LIMIT);
   }
 
   const pagination = {
@@ -85,21 +74,21 @@ const UserQuizz = () => {
 
   return (
     <div>
-      <Breadcrumb style={{textAlign: "right", marginRight: "27px"}}>
+      <Breadcrumb style={{ textAlign: "right", marginRight: "27px" }}>
         <Breadcrumb.Item>
           <Link to="/">
             <HomeOutlined />
           </Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-        <Link to="/user">
-        <UserOutlined />
+          <Link to="/user">
+            <UserOutlined />
             <span>User List</span>
-          </Link>            
+          </Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>User quizz</Breadcrumb.Item>
       </Breadcrumb>
-      <br/>
+      <br />
       <br />
       <div className="btn">
         <NavLink
@@ -118,7 +107,13 @@ const UserQuizz = () => {
         </NavLink>
       </div>
 
-      <Table bordered columns={columns} dataSource={quizzes} pagination={pagination} onChange={onChange} />
+      <Table
+        bordered
+        columns={columns}
+        dataSource={quizzes}
+        pagination={pagination}
+        onChange={onChange}
+      />
     </div>
   );
 };

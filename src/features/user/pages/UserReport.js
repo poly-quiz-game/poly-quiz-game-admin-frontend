@@ -12,13 +12,13 @@ const LIMIT = 10;
 const UserReport = () => {
   const dispatch = useDispatch();
   let params = useParams();
-  const { reports } = useSelector(selectUserDetail);
+  const { reports = [] } = useSelector(selectUserDetail) || {};
   const [offset, setOffset] = useState(0);
   const total = reports?.length;
 
   useEffect(() => {
     dispatch(userDetail(params.id));
-  }, [dispatch]);
+  }, [dispatch, params]);
 
   const current = offset / LIMIT + 1;
 
@@ -30,9 +30,9 @@ const UserReport = () => {
     },
     {
       title: "Số lượng câu hỏi",
-      dataIndex: "questions",
-      render: (questions) => {
-        return <p>{questions.length}</p>;
+      dataIndex: "reportQuestions",
+      render: (reportQuestions) => {
+        return <p>{reportQuestions.length}</p>;
       },
     },
     {

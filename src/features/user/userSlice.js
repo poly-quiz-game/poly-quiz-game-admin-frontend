@@ -9,23 +9,27 @@ const initialState = {
 };
 
 export const fetchUser = createAsyncThunk(
-  "user/getUser", async ({ offset, limit, search, sortBy }) => {
-  const  data  = await userApi.getAll({ offset, limit, search, sortBy });
-  return data;
-});
+  "user/getUser",
+  async ({ offset, limit, search, sortField, sortDirection }) => {
+    return await userApi.getAll({
+      offset,
+      limit,
+      search,
+      sortField,
+      sortDirection,
+    });
+  }
+);
 
 export const add = createAsyncThunk("user/addUser", async (user) => {
   const { data } = await userApi.add(user);
   return data;
 });
 
-export const update = createAsyncThunk(
-  "user/userUpdate",
-  async (user) => {
-    const { data } = await userApi.update(user);
-    return data;
-  }
-);
+export const update = createAsyncThunk("user/userUpdate", async (user) => {
+  const { data } = await userApi.update(user);
+  return data;
+});
 
 export const userDetail = createAsyncThunk("user/userDetail", async (id) => {
   const { data } = await userApi.getOne(id);
