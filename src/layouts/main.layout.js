@@ -90,7 +90,7 @@ const MainLayout = () => {
         <Layout
           style={{
             padding: "24px 24px 0",
-            height: "100vh",
+            minHeight: "100vh",
             margin: "65px 0 0 200px",
           }}
         >

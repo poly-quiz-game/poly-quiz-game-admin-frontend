@@ -2,7 +2,17 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Pie, Line } from "@ant-design/plots";
 import "../styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDashboard, selectDashboardList } from "../dashboardSlice";
 const Dashboard = () => {
+
+  const dispatch = useDispatch();
+  const {questionType} = useSelector(selectDashboardList);
+
+  useEffect(() => {
+    dispatch(fetchDashboard())
+  }, [dispatch])
+
   const data = [
     {
       type: "laquangduc",
@@ -38,24 +48,20 @@ const Dashboard = () => {
 
   const data1 = [
     {
-      type: "laquangduc",
-      value: 27,
-      year: "1999",
+      type: "CHỌN NHIỀU",
+      value: questionType && questionType.MULTIPLE_CORRECT_ANSWER,
     },
     {
-      type: "laquangduc1",
-      value: 25,
-      year: "1990",
+      type: "CHỌN MỘT",
+      value: questionType && questionType.SINGLE_CORRECT_ANSWER,
     },
     {
-      type: "laquangduc2",
-      value: 18,
-      year: "1899",
+      type: "ĐÚNG SAI",
+      value: questionType && questionType.TRUE_FALSE_ANSWER,
     },
     {
-      type: "laquangduc3",
-      value: 15,
-      year: "1799",
+      type: "TRẢ LỜI TEXT",
+      value: questionType && questionType.TYPE_ANSWER,
     },
   ];
 

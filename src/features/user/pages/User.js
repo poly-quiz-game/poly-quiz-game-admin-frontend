@@ -156,6 +156,20 @@ const User = () => {
       dataIndex: "role",
     },
     {
+      title: "Số quiz",
+      dataIndex: "quizzes",
+      render: (quizzes) => {
+        return <p>{quizzes.length}</p>;
+      },
+    },
+    {
+      title: "Số Report",
+      dataIndex: "reports",
+      render: (reports) => {
+        return <p>{reports.length}</p>;
+      },
+    },
+    {
       title: "Trạng Thái",
       dataIndex: "isActive",
       render: (isActive) => {
@@ -411,8 +425,8 @@ const User = () => {
                   ]}
                 >
                   <Select placeholder="Chon role">
-                    <Option value="member">Member</Option>
-                    <Option value="admin">Admin</Option>
+                    <Option value="student">Student</Option>
+                    <Option value="teacher">Teacher</Option>
                   </Select>
                 </Form.Item>
               </Col>
