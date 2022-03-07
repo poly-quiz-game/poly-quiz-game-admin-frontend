@@ -23,16 +23,16 @@ const Login = () => {
   return (
     <div className="auth-screen">
       <Row>
-        <Col span={10} offset={7} style={{textAlign: 'center'}}>
-            <GoogleLogin
-              clientId={process.env.REACT_APP_O2AUTH_CLIENT_ID}
-              buttonText="Login with google"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-              hostedDomain="fpt.edu.vn"
-              style={{width: "100%"}}
-            />
+        <Col span={10} offset={7} style={{ textAlign: "center" }}>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_O2AUTH_CLIENT_ID}
+            buttonText="Login with google"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+            hostedDomain="fpt.edu.vn"
+            style={{ width: "100%" }}
+          />
         </Col>
       </Row>
     </div>

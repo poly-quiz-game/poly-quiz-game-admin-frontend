@@ -1,0 +1,9 @@
+h1 {
+  font-size: 40px;
+  font-weight: bold;
+  margin-left: 75px;
+}
+.dashboard {
+  display: flex;
+  justify-content: space-around;
+}

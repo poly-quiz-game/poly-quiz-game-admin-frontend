@@ -73,9 +73,9 @@ const MainLayout = () => {
                 />
               </Link>
             </div>
-            {/* <Menu.Item key="1" icon={<DashboardOutlined />}>
-              <Link to="/">Dashboard</Link>
-            </Menu.Item> */}
+            <Menu.Item key="1" icon={<DashboardOutlined />}>
+              <Link to="/">Thống kê</Link>
+            </Menu.Item>
             <Menu.Item key="2" icon={<UserOutlined />}>
               <Link to="/user">Danh sách tài khoản</Link>
             </Menu.Item>
