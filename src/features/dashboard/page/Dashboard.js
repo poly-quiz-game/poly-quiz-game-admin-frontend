@@ -4,47 +4,49 @@ import { Pie, Line } from "@ant-design/plots";
 import "../styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDashboard, selectDashboardList } from "../dashboardSlice";
-const Dashboard = () => {
+import { DatePicker, Space } from "antd";
+import moment from "moment";
 
+const { RangePicker } = DatePicker;
+
+Date.prototype.addDays = function (days) {
+  this.setDate(this.getDate() + days);
+  return this;
+};
+function getDateArray(startDate, endDate, addFn, interval) {
+  addFn = addFn || Date.prototype.addDays;
+  interval = interval || 1;
+
+  var retVal = [];
+  var current = new Date(startDate);
+
+  while (current <= new Date(endDate)) {
+    retVal.push(moment(new Date(current)).format("YYYY-MM-DD"));
+    current = addFn.call(current, interval);
+  }
+
+  return retVal;
+}
+
+
+const Dashboard = () => {
   const dispatch = useDispatch();
-  const {questionType} = useSelector(selectDashboardList);
+  const { questionType, arrayCount } = useSelector(selectDashboardList);
+  const [metadata, setMetadata] = useState({
+    start: moment(Date.now()).subtract(30, "days").format("YYYY-MM-DD"),
+    end: moment(Date.now()).format("YYYY-MM-DD"),
+  });
+
+  const countData = arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count}), {}) || {}
 
   useEffect(() => {
-    dispatch(fetchDashboard())
-  }, [dispatch])
+    dispatch(fetchDashboard(metadata));
+  }, [dispatch, metadata]);
 
-  const data = [
-    {
-      type: "laquangduc",
-      value: 27,
-      year: "1999",
-    },
-    {
-      type: "laquangduc1",
-      value: 25,
-      year: "1990",
-    },
-    {
-      type: "laquangduc2",
-      value: 18,
-      year: "1899",
-    },
-    {
-      type: "laquangduc3",
-      value: 15,
-      year: "1799",
-    },
-    {
-      type: "laquangduc4",
-      value: 10,
-      year: "2999",
-    },
-    {
-      type: "laquangduc5",
-      value: 500,
-      year: "2099",
-    },
-  ];
+  const data = getDateArray(metadata.start, metadata.end).map((date) => ({ 
+    date,
+    value: countData[date] || 0
+}))
 
   const data1 = [
     {
@@ -89,7 +91,7 @@ const Dashboard = () => {
 
   const column = {
     data,
-    xField: "year",
+    xField: "date",
     yField: "value",
     label: {},
     point: {
@@ -120,9 +122,20 @@ const Dashboard = () => {
     ],
   };
 
+  const onChange = (values) => {
+    setMetadata({
+      start: moment(values[0]._d).format("YYYY-MM-DD"),
+      end: moment(values[1]._d).format("YYYY-MM-DD"),
+    });
+  };
+
   return (
     <>
       <h1>Thống Kê</h1>
+      <br />
+      <Space>
+        <RangePicker onChange={onChange} />
+      </Space>
       <br />
       <div className="dashboard">
         <div>

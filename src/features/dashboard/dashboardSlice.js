@@ -8,8 +8,8 @@ const initialState = {
 
 export const fetchDashboard = createAsyncThunk(
   "dashboard/getdashboard",
-  async () => {
-    const { data } = await dashboardApi.getAll();
+  async ({start, end}) => {
+    const { data } = await dashboardApi.getAll({start, end});
     return data;
   }
 );
