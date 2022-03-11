@@ -9,6 +9,7 @@ import moment from "moment";
 
 const { RangePicker } = DatePicker;
 
+// eslint-disable-next-line no-extend-native
 Date.prototype.addDays = function (days) {
   this.setDate(this.getDate() + days);
   return this;
@@ -28,7 +29,6 @@ function getDateArray(startDate, endDate, addFn, interval) {
   return retVal;
 }
 
-
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { questionType, arrayCount } = useSelector(selectDashboardList);
@@ -37,16 +37,17 @@ const Dashboard = () => {
     end: moment(Date.now()).format("YYYY-MM-DD"),
   });
 
-  const countData = arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count}), {}) || {}
+  const countData =
+    arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count }), {}) || {};
 
   useEffect(() => {
     dispatch(fetchDashboard(metadata));
   }, [dispatch, metadata]);
 
-  const data = getDateArray(metadata.start, metadata.end).map((date) => ({ 
+  const data = getDateArray(metadata.start, metadata.end).map((date) => ({
     date,
-    value: countData[date] || 0
-}))
+    value: countData[date] || 0,
+  }));
 
   const data1 = [
     {
@@ -133,9 +134,7 @@ const Dashboard = () => {
     <>
       <h1>Thống Kê</h1>
       <br />
-      <Space>
-        <RangePicker onChange={onChange} />
-      </Space>
+      <RangePicker onChange={onChange} />
       <br />
       <div className="dashboard">
         <div>

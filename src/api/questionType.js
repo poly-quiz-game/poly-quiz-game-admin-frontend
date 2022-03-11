@@ -2,11 +2,11 @@ import axiosClient from "./axiosClient";
 
 const questionTypeApi = {
   getAll() {
-    const url = "/question-type";
+    const url = "/questionType";
     return axiosClient.get(url, {});
   },
   update(data) {
-    const url = "/question-type/" + data._id;
+    const url = "/questionType/" + data.id;
     return axiosClient.put(url, data);
   },
 };
