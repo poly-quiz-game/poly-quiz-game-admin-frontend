@@ -59,6 +59,10 @@ const UserQuizz = () => {
         return <p>{questions.length}</p>;
       },
     },
+    {
+      title: "Phần trăm đúng",
+      dataIndex: "numberOfPlayer",
+    },
   ];
 
   function onChange(pagination) {

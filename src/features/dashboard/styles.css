@@ -3,7 +3,36 @@ h1 {
   font-weight: bold;
   margin-left: 75px;
 }
-.dashboard {
-  display: flex;
+.calendar {
+  margin-bottom: 5px;
+}
+.statistical-left {
+  display: flex !important;
   justify-content: space-around;
+  background-color: #ccdae2;
+  text-align: center;
+  height: 200px !important;
+  align-items: center;
+  margin-top: 24px;
+}
+.statistical__sum-quiz {
+  font-size: 18px;
+}
+.statistical__sum-quiz strong {
+  font-size: 40px;
+}
+.statistical-right {
+  height: 260px !important;
+  margin-bottom: 35px;
+}
+.statistical-right strong {
+  margin-left: 28px;
+}
+.line-graph {
+  text-align: center;
+  margin: 20px 0;
+}
+.top-teacher {
+  background-color: #ccdae2;
+  padding: 20px;
 }

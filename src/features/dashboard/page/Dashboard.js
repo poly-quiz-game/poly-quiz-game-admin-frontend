@@ -4,7 +4,7 @@ import { Pie, Line } from "@ant-design/plots";
 import "../styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDashboard, selectDashboardList } from "../dashboardSlice";
-import { DatePicker, Space } from "antd";
+import { DatePicker, Space, Row, Col, Divider } from "antd";
 import moment from "moment";
 
 const { RangePicker } = DatePicker;
@@ -134,23 +134,56 @@ const Dashboard = () => {
     <>
       <h1>Thống Kê</h1>
       <br />
+<<<<<<< Updated upstream
       <RangePicker onChange={onChange} />
+=======
+      <div className="calendar">
+        <Space>
+          <RangePicker onChange={onChange} />
+        </Space>
+      </div>
+      <div className="statistical">
+        <Row>
+          <Col span={14} className="statistical-left">
+            <div className="statistical__sum-quiz">
+              <strong>256</strong>
+              <br />
+              <span>Tổng số quiz được tạo</span>
+            </div>
+            <div className="statistical__sum-quiz">
+              <strong>256</strong>
+              <br />
+              <span>Tổng số game được chơi</span>
+            </div>
+            <div className="statistical__sum-quiz">
+              <strong>124</strong>
+              <br />
+              <span>Người chơi</span>
+            </div>
+          </Col>
+          <Col span={2}></Col>
+          <Col span={8}>
+            <div className="statistical-right">
+              <Pie {...config} />
+              <br />
+
+              <strong>Biểu Tỉ lệ loại câu hỏi được tạo</strong>
+            </div>
+          </Col>
+        </Row>
+      </div>
+
+>>>>>>> Stashed changes
       <br />
-      <div className="dashboard">
-        <div>
-          <Line {...column} />
-          <br />
-          <h2>
-            <strong>Biểu đồ số lượng game được tổ chức theo tuần</strong>
-          </h2>
-        </div>
-        <div>
-          <Pie {...config} />
-          <br />
-          <h2>
-            <strong>Biểu đồ loại câu hỏi được sử dụng nhiều nhất</strong>
-          </h2>
-        </div>
+      <div className="line-graph">
+        <Line {...column} />
+        <br />
+        <h2>
+          <strong>Biểu đồ số lượng game được tổ chức theo tuần</strong>
+        </h2>
+      </div>
+      <div className="top-teacher">
+        <h3>Top giảng viên tổ chức nhiều game nhất </h3>
       </div>
     </>
   );
