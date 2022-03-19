@@ -134,9 +134,6 @@ const Dashboard = () => {
     <>
       <h1>Thống Kê</h1>
       <br />
-<<<<<<< Updated upstream
-      <RangePicker onChange={onChange} />
-=======
       <div className="calendar">
         <Space>
           <RangePicker onChange={onChange} />
@@ -173,7 +170,6 @@ const Dashboard = () => {
         </Row>
       </div>
 
->>>>>>> Stashed changes
       <br />
       <div className="line-graph">
         <Line {...column} />
