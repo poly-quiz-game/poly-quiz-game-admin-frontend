@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import { Pie, Line } from "@ant-design/plots";
-import "../styles.css";
+import { Line, Pie } from "@ant-design/plots";
+import { Col, DatePicker, Row, Space } from "antd";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDashboard, selectDashboardList } from "../dashboardSlice";
-import { DatePicker, Space, Row, Col, Divider } from "antd";
-import moment from "moment";
+import "../styles.css";
 
 const { RangePicker } = DatePicker;
 
@@ -31,15 +30,29 @@ function getDateArray(startDate, endDate, addFn, interval) {
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { questionType, arrayCount } = useSelector(selectDashboardList);
+  const { questionType, arrayCount, countNewQuiz, countPlayers } = useSelector(selectDashboardList);
   const [metadata, setMetadata] = useState({
-    start: moment(Date.now()).subtract(30, "days").format("YYYY-MM-DD"),
-    end: moment(Date.now()).format("YYYY-MM-DD"),
+    start: moment(Date.now()).subtract(30, "days"),
+    end: moment(Date.now()),
   });
 
-  const countData =
-    arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count }), {}) || {};
+  const countPlayersQuiz = countPlayers?.map((data) => {
+     return data.players.length
+  })
 
+  const totalPlayersQuiz = countPlayersQuiz?.length > 0 && countPlayersQuiz.reduce(getSum)
+  console.log(totalPlayersQuiz, 'aaa')
+  console.log(countPlayers)
+
+  const countData = arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count }), {}) || {};
+
+  const arrayCountReport = arrayCount?.map((data) => {
+    return data.count;
+  });
+  const totalReport = arrayCountReport?.length > 0 && arrayCountReport.reduce(getSum)
+  function getSum(total, num) {
+    return total + num;
+  }
   useEffect(() => {
     dispatch(fetchDashboard(metadata));
   }, [dispatch, metadata]);
@@ -143,17 +156,17 @@ const Dashboard = () => {
         <Row>
           <Col span={14} className="statistical-left">
             <div className="statistical__sum-quiz">
-              <strong>256</strong>
+              <strong>{countNewQuiz && countNewQuiz || 0}</strong>
               <br />
               <span>Tổng số quiz được tạo</span>
             </div>
             <div className="statistical__sum-quiz">
-              <strong>256</strong>
+              <strong>{totalReport && totalReport || 0}</strong>
               <br />
               <span>Tổng số game được chơi</span>
             </div>
             <div className="statistical__sum-quiz">
-              <strong>124</strong>
+              <strong>{totalPlayersQuiz && totalPlayersQuiz || 0}</strong>
               <br />
               <span>Người chơi</span>
             </div>

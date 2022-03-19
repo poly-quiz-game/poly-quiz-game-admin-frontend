@@ -1,5 +1,9 @@
-import { HomeOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Table } from "antd";
+import {
+  HomeOutlined,
+  InfoCircleOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Breadcrumb, Space, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useParams } from "react-router-dom";
@@ -31,14 +35,30 @@ const UserQuizz = () => {
       title: "Ảnh Nền",
       dataIndex: "backgroundImage",
       render: (backgroundImage) => {
-        return <img width="150px" src={backgroundImage} />;
+        return (
+          <img
+            width="150px"
+            src={
+              backgroundImage ||
+              "https://tintuckhanhhoa.com/uploads/no_image_available.jpg"
+            }
+          />
+        );
       },
     },
     {
       title: "Ảnh Bìa",
       dataIndex: "coverImage",
       render: (coverImage) => {
-        return <img width="150px" src={coverImage} />;
+        return (
+          <img
+            width="150px"
+            src={
+              coverImage ||
+              "https://tintuckhanhhoa.com/uploads/no_image_available.jpg"
+            }
+          />
+        );
       },
     },
     {
@@ -60,8 +80,19 @@ const UserQuizz = () => {
       },
     },
     {
-      title: "Phần trăm đúng",
-      dataIndex: "numberOfPlayer",
+      title: "Action",
+      key: "action",
+      render: (record) => (
+        <Space
+          size="middle"
+          className="action-user"
+          style={{ textAlign: "center" }}
+        >
+          <Link to={`${record.id}`} style={{ padding: "2px 7px" }}>
+            <InfoCircleOutlined /> Detail
+          </Link>
+        </Space>
+      ),
     },
   ];
 
