@@ -80,11 +80,11 @@ const MainLayout = () => {
               <Link to="/user">Danh sách tài khoản</Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<PieChartOutlined />}>
-              <Link to="/question-type">Loại câu hỏi</Link>
+              <Link to="/question-type">Cài đặt câu hỏi</Link>
             </Menu.Item>
-            <Menu.Item key="4" icon={<FieldTimeOutlined />}>
+            {/* <Menu.Item key="4" icon={<FieldTimeOutlined />}>
               <Link to="/question-time">Thời gian câu hỏi</Link>
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu>
         </Sider>
         <Layout

@@ -1,38 +1,51 @@
 h1 {
   font-size: 40px;
   font-weight: bold;
-  margin-left: 75px;
 }
 .calendar {
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
-.statistical-left {
-  display: flex !important;
-  justify-content: space-around;
-  background-color: #ccdae2;
+.card-time h3 {
+  margin-top: 27px;
   text-align: center;
-  height: 200px !important;
-  align-items: center;
-  margin-top: 24px;
-}
-.statistical__sum-quiz {
-  font-size: 18px;
-}
-.statistical__sum-quiz strong {
-  font-size: 40px;
-}
-.statistical-right {
-  height: 260px !important;
-  margin-bottom: 35px;
-}
-.statistical-right strong {
-  margin-left: 28px;
-}
-.line-graph {
-  text-align: center;
-  margin: 20px 0;
 }
 .top-teacher {
-  background-color: #ccdae2;
   padding: 20px;
+  border: 1px solid #f0f0f0;
+}
+.top-teacher h2 {
+  padding: 10px 0;
+}
+/*  */
+.profile {
+  padding-top: 20px;
+  max-width: 1000px;
+  width: 80%;
+  margin: 0 auto;
+  min-height: calc(100vh - 64px);
+}
+
+.profile-header {
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  background-color: #f0f0f0;
+  width: 100%;
+  padding: 20px;
+  border-radius: 4px;
+}
+.profile-header button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.profile-header img {
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.profile-header p.email {
+  color: #777;
+}
+.ant-row {
+  margin-bottom: 20px;
 }

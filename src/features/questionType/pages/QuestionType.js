@@ -1,4 +1,4 @@
-import { Modal, Switch, Table } from "antd";
+import { Modal, Switch, Table, Row, Col, Card } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import questionTypeApi from "../../../api/questionType";
@@ -93,17 +93,28 @@ const QuestionType = () => {
   ];
   return (
     <div>
-      <Table
-        columns={columns}
-        dataSource={questionType}
-        pagination={{
-          defaultCurrent: 1,
-          current: 1,
-          pageSize: 10,
-          total: questionType.length,
-          hideOnSinglePage: true,
-        }}
-      />
+      <Row gutter={16}>
+        <Col span={12}>
+          <Card>
+            <Table
+              columns={columns}
+              dataSource={questionType}
+              pagination={{
+                defaultCurrent: 1,
+                current: 1,
+                pageSize: 10,
+                total: questionType.length,
+                hideOnSinglePage: true,
+              }}
+            />
+          </Card>
+        </Col>
+        <Col span={12}>
+          <Card>
+            <h4>Thời gian</h4>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };

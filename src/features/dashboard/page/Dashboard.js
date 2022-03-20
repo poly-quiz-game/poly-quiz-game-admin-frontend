@@ -1,5 +1,6 @@
 import { Line, Pie } from "@ant-design/plots";
-import { Col, DatePicker, Row, Space } from "antd";
+import { Card, Col, DatePicker, Row, Space, Table } from "antd";
+import Title from "antd/lib/skeleton/Title";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,26 +31,30 @@ function getDateArray(startDate, endDate, addFn, interval) {
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { questionType, arrayCount, countNewQuiz, countPlayers } = useSelector(selectDashboardList);
+  const { questionType, arrayCount, countNewQuiz, countPlayers } =
+    useSelector(selectDashboardList);
   const [metadata, setMetadata] = useState({
     start: moment(Date.now()).subtract(30, "days"),
     end: moment(Date.now()),
   });
 
   const countPlayersQuiz = countPlayers?.map((data) => {
-     return data.players.length
-  })
+    return data.players.length;
+  });
 
-  const totalPlayersQuiz = countPlayersQuiz?.length > 0 && countPlayersQuiz.reduce(getSum)
-  console.log(totalPlayersQuiz, 'aaa')
-  console.log(countPlayers)
+  const totalPlayersQuiz =
+    countPlayersQuiz?.length > 0 && countPlayersQuiz.reduce(getSum);
+  console.log(totalPlayersQuiz, "aaa");
+  console.log(countPlayers);
 
-  const countData = arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count }), {}) || {};
+  const countData =
+    arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count }), {}) || {};
 
   const arrayCountReport = arrayCount?.map((data) => {
     return data.count;
   });
-  const totalReport = arrayCountReport?.length > 0 && arrayCountReport.reduce(getSum)
+  const totalReport =
+    arrayCountReport?.length > 0 && arrayCountReport.reduce(getSum);
   function getSum(total, num) {
     return total + num;
   }
@@ -136,6 +141,61 @@ const Dashboard = () => {
     ],
   };
 
+  //Top giang vien
+  const columns = [
+    {
+      title: "STT",
+      dataIndex: "index",
+      render: (key) => <a>{key}</a>,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Số lượng game",
+      dataIndex: "numbergame",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Số lượng người chơi",
+      dataIndex: "numberplayer",
+      render: (text) => <a>{text}</a>,
+    },
+  ];
+
+  const dataTopTeacher = [
+    {
+      name: "John Brown",
+      age: 32,
+      address: "New York No. 1 Lake Park",
+      numbergame: 15,
+      numberplayer: 60,
+    },
+    {
+      name: "Jim Green",
+      age: 42,
+      address: "London No. 1 Lake Park",
+      numbergame: 15,
+      numberplayer: 37,
+    },
+    {
+      name: "Joe Black",
+      age: 32,
+      address: "Sidney No. 1 Lake Park",
+      numbergame: 93,
+      numberplayer: 55,
+    },
+    {
+      name: "Disabled User",
+      age: 99,
+      address: "Sidney No. 1 Lake Park",
+      numbergame: 58,
+      numberplayer: 63,
+    },
+  ]; // rowSelection object indicates the need for row selection
+
   const onChange = (values) => {
     setMetadata({
       start: moment(values[0]._d).format("YYYY-MM-DD"),
@@ -152,47 +212,48 @@ const Dashboard = () => {
           <RangePicker onChange={onChange} />
         </Space>
       </div>
-      <div className="statistical">
-        <Row>
-          <Col span={14} className="statistical-left">
-            <div className="statistical__sum-quiz">
-              <strong>{countNewQuiz && countNewQuiz || 0}</strong>
-              <br />
-              <span>Tổng số quiz được tạo</span>
-            </div>
-            <div className="statistical__sum-quiz">
-              <strong>{totalReport && totalReport || 0}</strong>
-              <br />
-              <span>Tổng số game được chơi</span>
-            </div>
-            <div className="statistical__sum-quiz">
-              <strong>{totalPlayersQuiz && totalPlayersQuiz || 0}</strong>
-              <br />
-              <span>Người chơi</span>
-            </div>
-          </Col>
-          <Col span={2}></Col>
+      {/* Html1 */}
+      <div className="profile-report">
+        <Row gutter={16}>
           <Col span={8}>
-            <div className="statistical-right">
+            <Card>
+              <h4>Tổng số quiz được tạo</h4>
+              <h1>{(countNewQuiz && countNewQuiz) || 0}</h1>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card>
+              <h4>Tổng số câu hỏi</h4>
+              <h1>{(totalReport && totalReport) || 0}</h1>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card>
+              <h4>Tổng số người tham gia</h4>
+              <h1>{(totalPlayersQuiz && totalPlayersQuiz) || 0}</h1>
+            </Card>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Card>
               <Pie {...config} />
-              <br />
-
-              <strong>Biểu Tỉ lệ loại câu hỏi được tạo</strong>
-            </div>
+              <h3>Tỉ lệ loại câu hỏi được tạo trong khoảng thời gian</h3>
+            </Card>
+          </Col>
+          <Col span={16}>
+            <Card className="card-time">
+              <Line {...column} />
+              <h3>Biểu đồ số lượng game được tổ chức theo khoảng thời gian</h3>
+            </Card>
           </Col>
         </Row>
       </div>
 
       <br />
-      <div className="line-graph">
-        <Line {...column} />
-        <br />
-        <h2>
-          <strong>Biểu đồ số lượng game được tổ chức theo tuần</strong>
-        </h2>
-      </div>
       <div className="top-teacher">
-        <h3>Top giảng viên tổ chức nhiều game nhất </h3>
+        <h2>Top giảng viên tổ chức nhiều game nhất </h2>
+        <Table columns={columns} dataSource={dataTopTeacher} />
       </div>
     </>
   );
