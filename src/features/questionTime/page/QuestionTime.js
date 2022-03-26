@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import { showDeleteConfirm } from "../../../confirm/DeleteConfirm";
 import {
   fetchQuestionTime,
-  remove,
   selectQuestionTimeList,
 } from "../questionTimeSlice";
 
@@ -39,7 +38,6 @@ const QuestionTime = () => {
             style={{ cursor: "pointer", color: "#1890ff" }}
             onClick={() => {
               showDeleteConfirm(record.name, async () => {
-                await dispatch(remove(record._id));
                 await dispatch(fetchQuestionTime());
               });
             }}
