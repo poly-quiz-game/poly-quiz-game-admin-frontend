@@ -14,13 +14,6 @@ export const fetchQuestionTime = createAsyncThunk(
   }
 );
 
-export const add = createAsyncThunk(
-  "questionTime/addQuestionTime", 
-  async (questionTime) => {
-    const { data } = await questionTimeApi.add(questionTime);
-    return data;
-});
-
 export const update = createAsyncThunk(
   "questionTime/questionTimeUpdate",
   async (questionTime) => {
@@ -28,13 +21,6 @@ export const update = createAsyncThunk(
     return data;
   }
 );
-
-export const remove = createAsyncThunk(
-  "questionTime/remove",
-  async (id) => {
-    const { data } = await questionTimeApi.delete(id);
-    return data;
-});
 
 const questionTimeSlice = createSlice({
   name: "questionTime",
@@ -45,13 +31,7 @@ const questionTimeSlice = createSlice({
     addCase(fetchQuestionTime.pending, (state) => {
       state.loading = true;
     });
-    addCase(add.pending, (state) => {
-      state.loading = true;
-    });
     addCase(update.pending, (state) => {
-      state.loading = true;
-    });
-    addCase(remove.pending, (state) => {
       state.loading = true;
     });
     //fulfilled
@@ -59,26 +39,14 @@ const questionTimeSlice = createSlice({
       state.loading = false;
       state.questionTime = action.payload;
     });
-    addCase(add.fulfilled, (state) => {
-      state.loading = false;
-    });
     addCase(update.fulfilled, (state) => {
-      state.loading = false;
-    });
-    addCase(remove.fulfilled, (state) => {
       state.loading = false;
     });
     //rejected
     addCase(fetchQuestionTime.rejected, (state) => {
       state.loading = false;
     });
-    addCase(add.rejected, (state) => {
-      state.loading = false;
-    });
     addCase(update.rejected, (state) => {
-      state.loading = false;
-    });
-    addCase(remove.rejected, (state) => {
       state.loading = false;
     });
   },
