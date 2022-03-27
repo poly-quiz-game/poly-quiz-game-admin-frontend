@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
 import {
-  SearchOutlined,
-  EditOutlined,
-  InfoCircleOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  EditOutlined,
   HomeOutlined,
-  UserOutlined,
+  InfoCircleOutlined,
+  SearchOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import {
   Breadcrumb,
@@ -20,17 +19,18 @@ import {
   Select,
   Space,
   Switch,
-  Table,
+  Table
 } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   add,
   fetchUser,
+  selectLoading,
   selectUserList,
   selectUserTotal,
-  update,
-  selectLoading,
+  update
 } from "../userSlice";
 
 const validateMessages = {
@@ -82,6 +82,9 @@ const User = () => {
         submit: "Thêm",
         role: "member",
         email: "",
+      });
+      form.setFieldsValue({
+        role: "member",
       });
     } else {
       setState({
@@ -219,8 +222,6 @@ const User = () => {
   };
 
   const onFinish = async (values) => {
-    console.log(!values.id);
-    console.log(values);
     if (values.isActive == undefined) {
       await dispatch(add(values));
       await dispatch(fetchUser(metadata));
@@ -234,8 +235,7 @@ const User = () => {
     }
   };
 
-  function onChange(pagination, filters, sorter, extra) {
-    console.log(sorter);
+  function onChange(pagination, sorter) {
     setMetadata({
       ...metadata,
       sortField: sorter.field,
@@ -315,61 +315,7 @@ const User = () => {
               style={{ border: "none" }}
               blur
             />
-          </Col>
-          <Col
-            span={4}
-            offset={14}
-            style={{
-              alignSelf: "center",
-            }}
-          >
-            {/* <div
-              style={{
-                float: "left",
-                border: "1px solid rgb(251 86 86)",
-                padding: "4px 8px",
-                borderRadius: "3px",
-                backgroundColor: "#ededed",
-                cursor: "pointer",
-                color: "#f74747"
-              }}
-            >
-              <DeleteOutlined
-                style={{                  
-                  alignSelf: "center",
-                  color: "#979797",
-                  marginRight: "5px",
-                  color: "#ff4c4c"
-                }}
-                // onClick={() => {
-                //   showDeleteConfirm(record.name, async () => {
-                //     await dispatch(remove(record.id));
-                //     await dispatch(fetchQuestionTime());
-                //   });
-                // }}
-              />
-              Delete
-            </div> */}
-            {/* <div
-              style={{
-                float: "right",
-                border: "1px solid #ccc",
-                padding: "4px 8px",
-                borderRadius: "3px",
-                backgroundColor: "#ededed",
-                cursor: "pointer",
-              }}
-            >
-              <FilterOutlined
-                style={{                  
-                  alignSelf: "center",
-                  color: "#979797",
-                  marginRight: "5px",
-                }}
-              />
-              Filter
-            </div> */}
-          </Col>
+          </Col>          
         </Row>
         <Table
           columns={columns}
@@ -393,7 +339,6 @@ const User = () => {
             layout="vertical"
             hideRequiredMark
             onFinish={onFinish}
-            // onFinishFailed={onFinishFailed}
             validateMessages={validateMessages}
           >
             {state.id}
@@ -425,7 +370,7 @@ const User = () => {
                   ]}
                 >
                   <Select placeholder="Chon role">
-                    <Option value="student">Student</Option>
+                    <Option value="member">Member</Option>
                     <Option value="teacher">Teacher</Option>
                   </Select>
                 </Form.Item>

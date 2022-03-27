@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export const quizDetail = createAsyncThunk("quiz/quizDetail", async (id) => {
-  const { data } = await quizApi.getOne(id);
+  const data = await quizApi.getOne(id);
   return data;
 });
 

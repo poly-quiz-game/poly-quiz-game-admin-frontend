@@ -49,3 +49,7 @@ h1 {
 .ant-row {
   margin-bottom: 20px;
 }
+
+.ant-card-body {
+  text-align: center;
+}

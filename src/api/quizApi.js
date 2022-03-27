@@ -1,11 +1,9 @@
-import axiosClient from "./axiosClient";
+import axiosClient, { authHeader } from "./axiosClient";
 
 const quizApi = {
   getOne(id) {
-    const url = "/dashboard/detail-quiz" + id;
-    return axiosClient.get(url, {
-      headers: authHeader(),
-    });
+    const url = "/dashboard/detail-quiz/" + id;
+    return axiosClient.get(url);
   },
 };
 

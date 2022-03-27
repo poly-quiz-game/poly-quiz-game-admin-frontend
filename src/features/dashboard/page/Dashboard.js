@@ -4,7 +4,7 @@ import Title from "antd/lib/skeleton/Title";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDashboard, selectDashboardList } from "../dashboardSlice";
+import { fetchDashboard, fetchTopUser, selectDashboardList, selectUserTopList } from "../dashboardSlice";
 import "../styles.css";
 
 const { RangePicker } = DatePicker;
@@ -29,10 +29,17 @@ function getDateArray(startDate, endDate, addFn, interval) {
   return retVal;
 }
 
+
+function disabledDate(current) {
+  return current && current > moment().endOf('day');
+}
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { questionType, arrayCount, countNewQuiz, countPlayers } =
     useSelector(selectDashboardList);
+
+  const { topUser } = useSelector(selectUserTopList);
   const [metadata, setMetadata] = useState({
     start: moment(Date.now()).subtract(30, "days"),
     end: moment(Date.now()),
@@ -44,8 +51,6 @@ const Dashboard = () => {
 
   const totalPlayersQuiz =
     countPlayersQuiz?.length > 0 && countPlayersQuiz.reduce(getSum);
-  console.log(totalPlayersQuiz, "aaa");
-  console.log(countPlayers);
 
   const countData =
     arrayCount?.reduce((a, v) => ({ ...a, [v.date]: v.count }), {}) || {};
@@ -58,8 +63,9 @@ const Dashboard = () => {
   function getSum(total, num) {
     return total + num;
   }
-  useEffect(() => {
-    dispatch(fetchDashboard(metadata));
+  useEffect( async () => {
+    await dispatch(fetchDashboard(metadata));
+    await dispatch(fetchTopUser())
   }, [dispatch, metadata]);
 
   const data = getDateArray(metadata.start, metadata.end).map((date) => ({
@@ -144,57 +150,22 @@ const Dashboard = () => {
   //Top giang vien
   const columns = [
     {
-      title: "STT",
-      dataIndex: "index",
-      render: (key) => <a>{key}</a>,
+      title: "TOP",
+      dataIndex: "key",
     },
     {
       title: "Name",
       dataIndex: "name",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Số lượng game",
-      dataIndex: "numbergame",
-      render: (text) => <a>{text}</a>,
+      dataIndex: "countreport",
     },
     {
       title: "Số lượng người chơi",
-      dataIndex: "numberplayer",
-      render: (text) => <a>{text}</a>,
+      dataIndex: "countplayer",
     },
   ];
-
-  const dataTopTeacher = [
-    {
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      numbergame: 15,
-      numberplayer: 60,
-    },
-    {
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      numbergame: 15,
-      numberplayer: 37,
-    },
-    {
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      numbergame: 93,
-      numberplayer: 55,
-    },
-    {
-      name: "Disabled User",
-      age: 99,
-      address: "Sidney No. 1 Lake Park",
-      numbergame: 58,
-      numberplayer: 63,
-    },
-  ]; // rowSelection object indicates the need for row selection
 
   const onChange = (values) => {
     setMetadata({
@@ -209,7 +180,7 @@ const Dashboard = () => {
       <br />
       <div className="calendar">
         <Space>
-          <RangePicker onChange={onChange} />
+          <RangePicker value={[moment(metadata.start), moment(metadata.end)]} onChange={onChange} disabledDate={disabledDate} />
         </Space>
       </div>
       {/* Html1 */}
@@ -253,7 +224,7 @@ const Dashboard = () => {
       <br />
       <div className="top-teacher">
         <h2>Top giảng viên tổ chức nhiều game nhất </h2>
-        <Table columns={columns} dataSource={dataTopTeacher} />
+        <Table columns={columns} dataSource={topUser} />
       </div>
     </>
   );

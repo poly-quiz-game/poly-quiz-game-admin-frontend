@@ -8,6 +8,12 @@ const dashboardApi = {
     return axiosClient.get(url, {
       headers: authHeader(),
     });
+  },
+  getTop() {
+    const url = `${path}/user/top/5`;
+    return axiosClient.get(url, {
+      headers: authHeader(),
+    });
   }
 };
 

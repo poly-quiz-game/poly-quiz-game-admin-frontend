@@ -62,7 +62,7 @@ const UserQuizz = () => {
       },
     },
     {
-      title: "Số Lượng người chơi",
+      title: "Người chơi tối đa",
       dataIndex: "numberOfPlayer",
     },
     {
@@ -91,6 +91,9 @@ const UserQuizz = () => {
           <Link to={`${record.id}`} style={{ padding: "2px 7px" }}>
             <InfoCircleOutlined /> Detail
           </Link>
+          {/* <Link to={`${record.id}`} style={{ padding: "2px 7px" }}>
+            <InfoCircleOutlined /> Report
+          </Link> */}
         </Space>
       ),
     },
