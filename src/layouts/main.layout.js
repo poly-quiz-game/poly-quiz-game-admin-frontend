@@ -1,12 +1,10 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb, Dropdown } from "antd";
+import { Layout, Menu, Dropdown } from "antd";
 import {
   UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
   PieChartOutlined,
   DashboardOutlined,
-  FieldTimeOutlined,
+  ControlOutlined,
 } from "@ant-design/icons";
 import "./styles.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -73,13 +71,16 @@ const MainLayout = () => {
                 />
               </Link>
             </div>
-            <Menu.Item key="1" icon={<DashboardOutlined />}>
-              <Link to="/">Thống kê</Link>
+            <Menu.Item key="1" icon={<ControlOutlined />}>
+              <Link to="/">Bảng điều khiển</Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<UserOutlined />}>
+            <Menu.Item key="2" icon={<DashboardOutlined />}>
+              <Link to="/dashboard">Thống kê</Link>
+            </Menu.Item>
+            <Menu.Item key="3" icon={<UserOutlined />}>
               <Link to="/user">Danh sách tài khoản</Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<PieChartOutlined />}>
+            <Menu.Item key="4" icon={<PieChartOutlined />}>
               <Link to="/question-type">Cài đặt câu hỏi</Link>
             </Menu.Item>
             {/* <Menu.Item key="4" icon={<FieldTimeOutlined />}>
