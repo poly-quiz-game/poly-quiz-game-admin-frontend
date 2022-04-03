@@ -3,11 +3,13 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   FieldTimeOutlined,
+  HomeOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { Collapse, Image, Layout } from "antd";
+import { Breadcrumb, Collapse, Image, Layout } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { quizDetail, selectQuizDetail } from "../../quiz/quizSlice";
 import "./detail.css";
 
@@ -24,6 +26,13 @@ const IncorretIcocn = (
     <CloseCircleFilled />
   </span>
 );
+
+const QUESTION_COLOR = [
+  { border: "2px solid rgb(226, 27, 60)" },
+  { border: "2px solid rgb(19, 104, 206)" },
+  { border: "2px solid rgb(216, 158, 0)" },
+  { border: "2px solid rgb(38, 137, 12)" },
+];
 const QUESTION_LABELS = ["A", "B", "C", "D"];
 
 const QUESTION_TYPE = [
@@ -54,8 +63,27 @@ const UserDetailQuizz = () => {
 
   return (
     <>
+      <Breadcrumb style={{ textAlign: "right", marginRight: "7px" }}>
+        <Breadcrumb.Item>
+          <Link to="/">
+            <HomeOutlined />
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to="/user">
+            <UserOutlined />
+            <span>Danh sách tài khoản</span>
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={`/user/${params.id}/quiz-user`}>
+            <span>{params.email} quiz</span>
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Chi tiết câu hỏi</Breadcrumb.Item>
+      </Breadcrumb>
       <h2>
-        Chào mừng đến với: <b>{quiz?.name}</b>
+        Wellcome to <b>{quiz?.name}</b>
       </h2>
       <Layout style={{ padding: "0 24px 24px", paddingLeft: "24px" }}>
         <div className="question">
@@ -67,11 +95,11 @@ const UserDetailQuizz = () => {
           return (
             <Collapse
               bordered={false}
-              defaultActiveKey={[index + 1]}
+              defaultActiveKey={[1]}
               expandIcon={({ isActive }) => (
                 <CaretRightOutlined rotate={isActive ? 90 : 0} />
               )}
-              className="site-collapse-custom-collapse"
+              className="site-collapse-custom-collapse question"
             >
               <Panel
                 header={QUESTION_TYPE[question.questionTypeId - 1]}
@@ -87,7 +115,7 @@ const UserDetailQuizz = () => {
                     </h5>
                     <div className="timeLimit">
                       <FieldTimeOutlined
-                        style={{ fontSize: "32px", marginRight: "20px" }}
+                        style={{ fontSize: "20px", marginRight: "15px" }}
                       />
                       Thời gian trả lời: {question.timeLimit / 1000} giây
                     </div>
@@ -117,7 +145,7 @@ const UserDetailQuizz = () => {
                         {answer.answer?.length > 0 && (
                           <div className="answer">
                             <div className="answer-question">
-                              <div className="answer-question-left">
+                              <div className="answer-question-left" style={QUESTION_COLOR[key]}>
                                 <h3>{QUESTION_LABELS[key]}</h3>
                               </div>
                               <div className="answer-question-right">

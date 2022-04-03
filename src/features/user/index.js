@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import User from "./pages/User";
 import UserQuizz from "./pages/UserQuizz";
-import UserReport from "./pages/UserReport";
+import UserReport from "./pages/UserReportDetailQuiz";
 import UserQuizzDetail from "./pages/UserDetailQuizz";
 
 const UserFeature = () => {
@@ -11,7 +11,7 @@ const UserFeature = () => {
       <Routes>
         <Route path="/" element={<User />} />
         <Route path=":id/quiz-user" element={<UserQuizz />} />
-        <Route path=":id/quiz-user/:quizId" element={<UserQuizzDetail />} />
+        <Route path=":id/quiz-user/:quizId/:email" element={<UserQuizzDetail />} />
         <Route path=":id/quiz-report" element={<UserReport />} />
       </Routes>
     </div>
