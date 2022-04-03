@@ -145,17 +145,23 @@ const User = () => {
 
   const columns = [
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       sorter: true,
+      render: (name) => {
+        return <p style={{textAlign: 'left'}}>{name}</p>;
+      },
     },
     {
       title: "Email",
       dataIndex: "email",
       sorter: true,
+      render: (email) => {
+        return <p style={{textAlign: 'left'}}>{email}</p>;
+      },
     },
     {
-      title: "Role",
+      title: "Quyền",
       dataIndex: "role",
     },
     {
@@ -192,7 +198,7 @@ const User = () => {
       },
     },
     {
-      title: "Action",
+      title: "Hành động",
       key: "action",
       render: (record) => (
         <Space
@@ -204,14 +210,14 @@ const User = () => {
             to={`/user/${record.id}/quiz-user`}
             style={{ padding: "2px 7px" }}
           >
-            <InfoCircleOutlined /> Detail
+            <InfoCircleOutlined /> Chi tiết
           </Link>
           <div
             className="ant-space-item"
             onClick={() => showDrawer(record)}
             style={{ padding: "0 7px", color: "#1890ff" }}
           >
-            <EditOutlined /> Edit
+            <EditOutlined /> Sửa
           </div>
         </Space>
       ),
@@ -266,7 +272,7 @@ const User = () => {
         </Breadcrumb.Item>
         <Breadcrumb.Item>
           <UserOutlined />
-          <span>Uer List</span>
+          <span>Danh sách tài khoản</span>
         </Breadcrumb.Item>
       </Breadcrumb>
       <br />

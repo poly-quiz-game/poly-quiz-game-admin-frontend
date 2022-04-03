@@ -21,6 +21,18 @@ const userApi = {
       headers: authHeader(),
     });
   },
+  getReportQuizzes(id) {
+    const url = `${path}/list-report-quiz/${id}`;
+    return axiosClient.get(url, {
+      headers: authHeader(),
+    });
+  },
+  getReportDetail(id) {
+    const url = `${path}/detail-report-quiz/${id}`;
+    return axiosClient.get(url, {
+      headers: authHeader(),
+    });
+  },
   add(user) {
     const url = "/user";
     return axiosClient.post(url, user, {

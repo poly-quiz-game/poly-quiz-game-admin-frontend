@@ -9,15 +9,14 @@ import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 
 const LIMIT = 10;
 
-const UserReport = () => {
+const DetailReportQuestion = () => {
   const dispatch = useDispatch();
   let params = useParams();
-  const { reports = [] } = useSelector(selectUserDetail) || {};
+  const reports = useSelector(selectUserDetail);
   const [offset, setOffset] = useState(0);
-  const total = reports?.length;
 
   useEffect(() => {
-    dispatch(userDetail(params.id));
+    console.log('aaa')
   }, [dispatch, params]);
 
   const current = offset / LIMIT + 1;
@@ -31,21 +30,14 @@ const UserReport = () => {
     {
       title: "Số lượng câu hỏi",
       dataIndex: "reportQuestions",
-      render: (reportQuestions) => {
-        return <p>{reportQuestions.length}</p>;
-      },
     },
     {
-      title: "Số lượng người chơi",
+      title: "Số lượng câu trả lời",
       dataIndex: "players",
-      render: (players) => {
-        return <p>{players.length}</p>;
-      },
     },
     {
-      title: "Thời gian",
+      title: "Tỉ lệ câu đúng",
       dataIndex: "createdAt",
-      render: (createdAt) => moment(createdAt).format("DD/MM/YYYY HH:mm"),
     },
   ];
 
@@ -57,12 +49,11 @@ const UserReport = () => {
     defaultCurrent: 1,
     current: current,
     pageSize: LIMIT,
-    total: total,
   };
 
   return (
     <div>
-      <Breadcrumb style={{ textAlign: "right", marginRight: "27px" }}>
+      <Breadcrumb style={{ textAlign: "right", marginRight: "7px" }}>
         <Breadcrumb.Item>
           <Link to="/">
             <HomeOutlined />
@@ -71,10 +62,20 @@ const UserReport = () => {
         <Breadcrumb.Item>
           <Link to="/user">
             <UserOutlined />
-            <span>User List</span>
+            <span>Danh sách tài khoản</span>
           </Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>User report</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={`/user/${params.id}/quiz-user`}>
+            <span>{params.email}</span>
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={`/user/${params.id}/quiz-user`}>
+            <span>Danh sách báo cáo</span>
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Chi tiết báo cáo</Breadcrumb.Item>
       </Breadcrumb>
       <br />
       <br />
@@ -82,16 +83,16 @@ const UserReport = () => {
         <NavLink
           className="btn-active"
           activeclass="active"
-          to={`/user/${params.id}/quiz-user`}
+          to={`/user/${params.id}/quiz-user/${params.quizId}/${params.email}/${params.reportId}/detail-report/player`}
         >
-          User quizz
+          Người chơi
         </NavLink>
         <NavLink
           className="btn-active"
           activeclass="active"
-          to={`/user/${params.id}/quiz-report`}
+          to={`/user/${params.id}/quiz-user/${params.quizId}/${params.email}/${params.reportId}/detail-report/question`}
         >
-          Report quizz
+          Câu hỏi
         </NavLink>
       </div>
 
@@ -99,11 +100,12 @@ const UserReport = () => {
         bordered
         pagination={pagination}
         columns={columns}
-        dataSource={reports}
+        // dataSource={reports}
         onChange={onChange}
       />
     </div>
   );
 };
 
-export default UserReport;
+export default DetailReportQuestion;
+

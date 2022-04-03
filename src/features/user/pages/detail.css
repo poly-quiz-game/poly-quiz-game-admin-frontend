@@ -71,6 +71,7 @@
     padding-top: 3px;
   }
   .question{
+    background-color: #fff;
     padding-top: 20px;
   }
   .question h3{
@@ -128,8 +129,7 @@
     margin-left: 20px;
   }
   .answer-question-left{
-    background-color: #C4C4C4;
-    border-radius: 25px;
+    border-radius: 50%;
     width: 30px;
     height: 30px;
     
@@ -148,6 +148,12 @@
   }
   .timeLimit{
     display: flex;
-    font-size: 18px;
+    font-size: 14px;
     margin-top: 40px;
+  }
+
+  .site-collapse-custom-collapse.question {
+    margin-bottom: 15px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
   }

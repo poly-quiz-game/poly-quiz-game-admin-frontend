@@ -1,6 +1,10 @@
 import {
+  CheckCircleTwoTone,
+  CloseCircleOutlined,
   HomeOutlined,
   InfoCircleOutlined,
+  QuestionCircleOutlined,
+  TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Space, Table } from "antd";
@@ -15,7 +19,7 @@ const LIMIT = 10;
 const UserQuizz = () => {
   let params = useParams();
   const dispatch = useDispatch();
-  const { quizzes = [] } = useSelector(selectUserDetail) || {};
+  const {quizzes, email} = useSelector(selectUserDetail);
   const [offset, setOffset] = useState(0);
   const total = quizzes?.length;
 
@@ -30,6 +34,9 @@ const UserQuizz = () => {
       title: "Tên",
       dataIndex: "name",
       sorter: (a, b) => a.name.length - b.name.length,
+      render: (name) => {
+        return <p style={{textAlign: 'left'}}>{name}</p>;
+      },
     },
     {
       title: "Ảnh Nền",
@@ -64,23 +71,26 @@ const UserQuizz = () => {
     {
       title: "Người chơi tối đa",
       dataIndex: "numberOfPlayer",
+      render: (numberOfPlayer) => {
+        return (<><TeamOutlined /> <span style={{marginLeft: '10px'}}>{numberOfPlayer}</span></>)
+      }
     },
     {
       title: "Đăng Nhập",
       dataIndex: "needLogin",
       render: (needLogin) => {
-        return <p>{needLogin ? "Có" : "Không"}</p>;
+        return <span>{needLogin ? <CheckCircleTwoTone twoToneColor="#52c41a" /> : <CloseCircleOutlined style={{color: '#ff3535'}}  />}</span>;
       },
     },
     {
       title: "Số lượng câu hỏi",
       dataIndex: "questions",
       render: (questions) => {
-        return <p>{questions.length}</p>;
+        return <><QuestionCircleOutlined /><span style={{marginLeft: '10px'}}>{questions.length}</span></>;
       },
     },
     {
-      title: "Action",
+      title: "Hành động",
       key: "action",
       render: (record) => (
         <Space
@@ -88,12 +98,12 @@ const UserQuizz = () => {
           className="action-user"
           style={{ textAlign: "center" }}
         >
-          <Link to={`${record.id}`} style={{ padding: "2px 7px" }}>
-            <InfoCircleOutlined /> Detail
+          <Link to={`${record.id}/${email}`} style={{ padding: "2px 7px" }}>
+            <InfoCircleOutlined /> Chi tiết
           </Link>
-          {/* <Link to={`${record.id}`} style={{ padding: "2px 7px" }}>
-            <InfoCircleOutlined /> Report
-          </Link> */}
+          <Link to={`${record.id}/${email}/quiz-report`} style={{ padding: "2px 7px" }}>
+            <InfoCircleOutlined /> Báo cáo
+          </Link>
         </Space>
       ),
     },
@@ -112,7 +122,7 @@ const UserQuizz = () => {
 
   return (
     <div>
-      <Breadcrumb style={{ textAlign: "right", marginRight: "27px" }}>
+      <Breadcrumb style={{ textAlign: "right", marginRight: "7px" }}>
         <Breadcrumb.Item>
           <Link to="/">
             <HomeOutlined />
@@ -121,30 +131,13 @@ const UserQuizz = () => {
         <Breadcrumb.Item>
           <Link to="/user">
             <UserOutlined />
-            <span>User List</span>
+            <span>Danh sách tài khoản</span>
           </Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>User quizz</Breadcrumb.Item>
+        <Breadcrumb.Item>{email}</Breadcrumb.Item>
       </Breadcrumb>
       <br />
       <br />
-      <div className="btn">
-        <NavLink
-          className="btn-active"
-          activeclass="active"
-          to={`/user/${params.id}/quiz-user`}
-        >
-          User quizz
-        </NavLink>
-        <NavLink
-          className="btn-active"
-          activeclass="active"
-          to={`/user/${params.id}/quiz-report`}
-        >
-          Report quizz
-        </NavLink>
-      </div>
-
       <Table
         bordered
         columns={columns}
