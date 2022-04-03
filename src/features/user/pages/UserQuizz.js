@@ -101,7 +101,7 @@ const UserQuizz = () => {
           <Link to={`${record.id}/${email}`} style={{ padding: "2px 7px" }}>
             <InfoCircleOutlined /> Chi tiết
           </Link>
-          <Link to={`${record.id}`} style={{ padding: "2px 7px" }}>
+          <Link to={`${record.id}/${email}/quiz-report`} style={{ padding: "2px 7px" }}>
             <InfoCircleOutlined /> Báo cáo
           </Link>
         </Space>
@@ -134,7 +134,7 @@ const UserQuizz = () => {
             <span>Danh sách tài khoản</span>
           </Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>{email} quiz</Breadcrumb.Item>
+        <Breadcrumb.Item>{email}</Breadcrumb.Item>
       </Breadcrumb>
       <br />
       <br />

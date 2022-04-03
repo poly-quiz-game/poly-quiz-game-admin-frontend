@@ -54,8 +54,6 @@ const UserDetailQuizz = () => {
     dispatch(quizDetail(params.quizId));
   }, [dispatch, params]);
 
-  console.log(quiz);
-
   // 2,MULTIPLE_CORRECT_ANSWER
   // 3,TRUE_FALSE_ANSWER
   // 4,TYPE_ANSWER
@@ -77,7 +75,7 @@ const UserDetailQuizz = () => {
         </Breadcrumb.Item>
         <Breadcrumb.Item>
           <Link to={`/user/${params.id}/quiz-user`}>
-            <span>{params.email} quiz</span>
+            <span>{params.email}</span>
           </Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>Chi tiết câu hỏi</Breadcrumb.Item>
@@ -85,7 +83,7 @@ const UserDetailQuizz = () => {
       <h2>
         Wellcome to <b>{quiz?.name}</b>
       </h2>
-      <Layout style={{ padding: "0 24px 24px", paddingLeft: "24px" }}>
+      <Layout>
         <div className="question">
           <h3>
             <span>({questions?.length})</span> câu hỏi
