@@ -1,7 +1,7 @@
 import axios from "axios";
 // const baseURL = process.env.ENDPOINT;
 // const baseURL = "http://165.22.53.167:3005/api";
-const baseURL = "http://localhost:3005/api";
+const baseURL = "https://poly-quiz-backend.azurewebsites.net/api";
 
 const axiosClient = axios.create({
   baseURL,

@@ -1,5 +1,5 @@
 import { Line, Pie } from "@ant-design/plots";
-import { Card, Col, DatePicker, Row, Space, Table } from "antd";
+import { Card, Col, DatePicker, Row, Space, Table, Skeleton } from "antd";
 import io from "socket.io-client";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -38,10 +38,16 @@ function disabledDate(current) {
   return current && current > moment().endOf("day");
 }
 
-const port = process.env.ENDPOINT || "ws://localhost:3005";
+function getSum(total, num) {
+  return total + num;
+}
+
+const port =
+  process.env.ENDPOINT || "https://poly-quiz-backend.azurewebsites.net/api";
 
 const Dashboard = () => {
   const [socket, setSocket] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { questionType, arrayCount, countNewQuiz, countPlayers } =
     useSelector(selectDashboardList);
@@ -67,13 +73,13 @@ const Dashboard = () => {
   });
   const totalReport =
     arrayCountReport?.length > 0 && arrayCountReport.reduce(getSum);
-  function getSum(total, num) {
-    return total + num;
-  }
+
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       await dispatch(fetchDashboard(metadata));
       await dispatch(fetchTopUser());
+      setLoading(false);
     };
     fetchData();
   }, [dispatch, metadata]);
@@ -200,7 +206,7 @@ const Dashboard = () => {
       end: moment(values[1]._d).format("YYYY-MM-DD"),
     });
   };
-
+  console.log(loading);
   return (
     <>
       <h1>Thống Kê</h1>
@@ -215,42 +221,48 @@ const Dashboard = () => {
         </Space>
       </div>
       {/* Html1 */}
-      <div className="profile-report">
-        <Row gutter={16}>
-          <Col span={8}>
-            <Card>
-              <h4>Tổng số quiz được tạo</h4>
-              <h1>{(countNewQuiz && countNewQuiz) || 0}</h1>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card>
-              <h4>Tổng số câu hỏi</h4>
-              <h1>{(totalReport && totalReport) || 0}</h1>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card>
-              <h4>Tổng số người tham gia</h4>
-              <h1>{(totalPlayersQuiz && totalPlayersQuiz) || 0}</h1>
-            </Card>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Card>
-              <Pie {...config} />
-              <h3>Tỉ lệ loại câu hỏi được tạo trong khoảng thời gian</h3>
-            </Card>
-          </Col>
-          <Col span={16}>
-            <Card className="card-time">
-              <Line {...column} />
-              <h3>Biểu đồ số lượng game được tổ chức theo khoảng thời gian</h3>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      {loading ? (
+        <Skeleton />
+      ) : (
+        <div className="profile-report">
+          <Row gutter={16}>
+            <Col span={8}>
+              <Card>
+                <h4>Tổng số quiz được tạo</h4>
+                <h1>{(countNewQuiz && countNewQuiz) || 0}</h1>
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <h4>Tổng số câu hỏi</h4>
+                <h1>{(totalReport && totalReport) || 0}</h1>
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <h4>Tổng số người tham gia</h4>
+                <h1>{(totalPlayersQuiz && totalPlayersQuiz) || 0}</h1>
+              </Card>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={8}>
+              <Card>
+                <Pie {...config} />
+                <h3>Tỉ lệ loại câu hỏi được tạo trong khoảng thời gian</h3>
+              </Card>
+            </Col>
+            <Col span={16}>
+              <Card className="card-time">
+                <Line {...column} />
+                <h3>
+                  Biểu đồ số lượng game được tổ chức theo khoảng thời gian
+                </h3>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      )}
 
       <br />
       <div className="top-teacher">

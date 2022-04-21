@@ -5,7 +5,7 @@ import {
   HomeOutlined,
   InfoCircleOutlined,
   SearchOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import {
   Breadcrumb,
@@ -19,7 +19,7 @@ import {
   Select,
   Space,
   Switch,
-  Table
+  Table,
 } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,7 +30,7 @@ import {
   selectLoading,
   selectUserList,
   selectUserTotal,
-  update
+  update,
 } from "../userSlice";
 
 const validateMessages = {
@@ -149,7 +149,7 @@ const User = () => {
       dataIndex: "name",
       sorter: true,
       render: (name) => {
-        return <p style={{textAlign: 'left'}}>{name}</p>;
+        return <p style={{ textAlign: "left" }}>{name}</p>;
       },
     },
     {
@@ -157,7 +157,7 @@ const User = () => {
       dataIndex: "email",
       sorter: true,
       render: (email) => {
-        return <p style={{textAlign: 'left'}}>{email}</p>;
+        return <p style={{ textAlign: "left" }}>{email}</p>;
       },
     },
     {
@@ -264,7 +264,7 @@ const User = () => {
 
   return (
     <div>
-      <Breadcrumb style={{ textAlign: "right", marginRight: "27px" }}>
+      <Breadcrumb style={{ marginRight: "27px", color: "#333" }}>
         <Breadcrumb.Item>
           <Link to="/">
             <HomeOutlined />
@@ -276,6 +276,7 @@ const User = () => {
         </Breadcrumb.Item>
       </Breadcrumb>
       <br />
+      <h2>Danh sách game đang chơi</h2>
       <Row>
         <Col span={5} offset={0}>
           <Button
@@ -287,11 +288,9 @@ const User = () => {
           </Button>
         </Col>
       </Row>
-      <hr style={{ opacity: "0.5" }} />
       <br />
       <div
         style={{
-          border: "1px solid #ccc",
           padding: "0 23px",
           borderRadius: "12px",
         }}
@@ -303,14 +302,11 @@ const User = () => {
             style={{
               textAlign: "center",
               display: "flex",
-              margin: "9px 0",
-              borderBottom: "1px solid #ccc",
             }}
           >
-            <SearchOutlined style={{ alignSelf: "center", color: "#979797" }} />
             <Input
-              className="search-user"
-              placeholder="Search"
+              // className="search-user"
+              placeholder="Tìm kiếm"
               onChange={(e) =>
                 setMetadata({
                   ...metadata,
@@ -318,10 +314,10 @@ const User = () => {
                   search: e.target.value,
                 })
               }
-              style={{ border: "none" }}
+              prefix={<SearchOutlined />}
               blur
             />
-          </Col>          
+          </Col>
         </Row>
         <Table
           columns={columns}

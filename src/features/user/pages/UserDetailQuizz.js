@@ -80,9 +80,7 @@ const UserDetailQuizz = () => {
         </Breadcrumb.Item>
         <Breadcrumb.Item>Chi tiết câu hỏi</Breadcrumb.Item>
       </Breadcrumb>
-      <h2>
-        Wellcome to <b>{quiz?.name}</b>
-      </h2>
+      <h2>{quiz?.name}</h2>
       <Layout>
         <div className="question">
           <h3>
@@ -143,7 +141,10 @@ const UserDetailQuizz = () => {
                         {answer.answer?.length > 0 && (
                           <div className="answer">
                             <div className="answer-question">
-                              <div className="answer-question-left" style={QUESTION_COLOR[key]}>
+                              <div
+                                className="answer-question-left"
+                                style={QUESTION_COLOR[key]}
+                              >
                                 <h3>{QUESTION_LABELS[key]}</h3>
                               </div>
                               <div className="answer-question-right">

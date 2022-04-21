@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { Button, Modal, Table } from "antd";
 
-const port = process.env.ENDPOINT || "ws://localhost:3005";
+const port =
+  process.env.ENDPOINT || "https://poly-quiz-backend.azurewebsites.net";
 
 export const getTimeString = (time) => {
   const date = new Date(time);
@@ -171,10 +172,12 @@ const Dashboard = () => {
 
   return (
     <div>
+      <h2>Danh sách game đang chơi</h2>
       <Table
         dataSource={gamesPlaying}
         columns={columns}
         pagination={{ hideOnSinglePage: true }}
+
       />
     </div>
   );
